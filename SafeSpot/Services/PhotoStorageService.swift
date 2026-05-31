@@ -5,9 +5,11 @@ final class PhotoStorageService {
     static let shared = PhotoStorageService()
 
     private let fileManager: FileManager
+    private let baseDirectoryURL: URL?
 
-    init(fileManager: FileManager = .default) {
+    init(fileManager: FileManager = .default, baseDirectoryURL: URL? = nil) {
         self.fileManager = fileManager
+        self.baseDirectoryURL = baseDirectoryURL
     }
 
     func saveImage(_ image: UIImage) throws -> String {
@@ -43,7 +45,8 @@ final class PhotoStorageService {
     }
 
     private func photosDirectory() throws -> URL {
-        let baseURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        let baseURL = baseDirectoryURL
+            ?? fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         let directory = baseURL
             .appendingPathComponent("SafeSpot", isDirectory: true)
             .appendingPathComponent("ItemPhotos", isDirectory: true)
@@ -63,4 +66,3 @@ final class PhotoStorageService {
 enum PhotoStorageError: Error {
     case encodingFailed
 }
-

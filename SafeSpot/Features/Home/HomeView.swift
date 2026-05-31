@@ -64,27 +64,12 @@ struct HomeView: View {
     }
 
     private var filteredItems: [StoredItem] {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let filtered = visibleItems.filter { item in
-            let matchesSearch = query.isEmpty || item.searchableText.contains(query)
-            let matchesCategory = selectedCategory == nil || item.category == selectedCategory
-            return matchesSearch && matchesCategory
-        }
-
-        switch sortOption {
-        case .recentlyUpdated:
-            return filtered.sorted { $0.updatedAt > $1.updatedAt }
-        case .nameAscending:
-            return filtered.sorted {
-                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
-        case .lastChecked:
-            return filtered.sorted {
-                ($0.lastCheckedAt ?? .distantPast) > ($1.lastCheckedAt ?? .distantPast)
-            }
-        case .category:
-            return filtered.sorted { $0.category.title < $1.category.title }
-        }
+        StoredItemListFilter.filterAndSort(
+            items,
+            searchText: searchText,
+            selectedCategory: selectedCategory,
+            sortOption: sortOption
+        )
     }
 
     private var sortOption: ItemSortOption {

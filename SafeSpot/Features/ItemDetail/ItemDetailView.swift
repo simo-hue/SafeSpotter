@@ -157,6 +157,13 @@ struct ItemDetailView: View {
                 isShowingEditItem = true
             }
 
+            SecondaryButton(
+                title: item.reminderDate == nil ? "Set Reminder" : "Configure Reminder",
+                systemImage: "bell"
+            ) {
+                isShowingEditItem = true
+            }
+
             SecondaryButton(title: "Delete", systemImage: "trash", role: .destructive) {
                 HapticService.warning()
                 isShowingDeleteConfirmation = true

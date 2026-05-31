@@ -84,6 +84,19 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         SectionCard(title: "About", systemImage: "info.circle.fill") {
+            VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                Text("About SafeSpot")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(AppColors.textPrimary)
+
+                Text("Remember where you keep what matters.")
+                    .font(.caption)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
+
+            Divider()
+                .overlay(Color.white.opacity(0.1))
+
             NavigationLink {
                 PrivacyStatementView()
             } label: {

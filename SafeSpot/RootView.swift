@@ -22,6 +22,9 @@ struct RootView: View {
                 isAuthenticated = false
             }
         }
+        .onChange(of: isAppLockEnabled) { _, isEnabled in
+            isAuthenticated = isEnabled
+        }
     }
 }
 

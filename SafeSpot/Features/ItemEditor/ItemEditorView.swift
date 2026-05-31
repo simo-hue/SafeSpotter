@@ -113,7 +113,7 @@ struct ItemEditorView: View {
                         .tag(sensitivity)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
 
             Text(viewModel.sensitivity.description)
                 .font(.caption)
