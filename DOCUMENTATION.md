@@ -22,3 +22,11 @@
 - [2026-05-31]: Fixed 404 Links for GitHub Pages Deployment
   - *Details*: Converted absolute links to relative links across all HTML files so navigation works correctly regardless of the repository base path.
   - *Tech Notes*: Updated `index.html`, `privacy.html`, `terms.html`, and `support.html` inside `website/` and ran `npm run build`.
+
+- [2026-05-31]: Replaced relative links with absolute SafeSpotter base paths
+  - *Details*: To prevent routing issues caused by missing trailing slashes on GitHub Pages, all `href` links were changed to use absolute base paths (`/SafeSpotter/...`). `vite.config.js` was also updated to use `base: '/SafeSpotter/'`.
+  - *Tech Notes*: Updated `vite.config.js` and all HTML files in `website/`, rebuilt with `npm run build`, and pushed the commit.
+
+- [2026-05-31]: Created Project README
+  - *Details*: Authored a comprehensive and professional README.md in English for the SafeSpot repository.
+  - *Tech Notes*: Based the content entirely on the existing `specifiche.md` and the implemented codebase (SwiftData, Face ID, local notifications, SwiftUI architecture).
