@@ -1,5 +1,4 @@
 # SafeSpot
-
 > **Find your important things fast. No account. No cloud. Only on your iPhone.**
 
 SafeSpot is a native, local-first iOS "memory vault" designed to help you remember where you placed important physical items, documents, and small valuables. From passports to spare keys and emergency cash, SafeSpot keeps track of your most important belongings with maximum privacy.
