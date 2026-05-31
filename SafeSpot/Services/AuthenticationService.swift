@@ -23,11 +23,10 @@ final class AuthenticationService {
         do {
             return try await context.evaluatePolicy(
                 .deviceOwnerAuthentication,
-                localizedReason: "Unlock SafeSpot to view your saved items."
+                localizedReason: "Unlock your vault to view your saved items."
             )
         } catch {
             return false
         }
     }
 }
-

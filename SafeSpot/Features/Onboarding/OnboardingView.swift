@@ -12,21 +12,6 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 44, height: 44)
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-
-                Text("SafeSpot")
-                    .font(.headline)
-                    .foregroundStyle(AppColors.textPrimary)
-
-                Spacer()
-            }
-            .padding(AppSpacing.lg)
-
             TabView(selection: $selectedPage) {
                 ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
                     onboardingPage(page)
@@ -56,7 +41,7 @@ struct OnboardingView: View {
         }
         .appScreenBackground()
         .confirmationDialog(
-            "Protect SafeSpot with Face ID?",
+            "Protect your saved items with Face ID?",
             isPresented: $isShowingProtectionChoice,
             titleVisibility: .visible
         ) {

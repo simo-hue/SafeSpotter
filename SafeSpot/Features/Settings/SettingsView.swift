@@ -41,7 +41,7 @@ struct SettingsView: View {
         SectionCard(title: "Privacy", systemImage: "lock.shield.fill") {
             SettingsToggleRow(
                 title: "Require Face ID or Passcode",
-                subtitle: "Protect SafeSpot when opening the app.",
+                subtitle: "Protect your saved items when opening the app.",
                 isOn: Binding(
                     get: { isAppLockEnabled },
                     set: { updateAppLock(isEnabled: $0) }
@@ -84,19 +84,6 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         SectionCard(title: "About", systemImage: "info.circle.fill") {
-            VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                Text("About SafeSpot")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(AppColors.textPrimary)
-
-                Text("Remember where you keep what matters.")
-                    .font(.caption)
-                    .foregroundStyle(AppColors.textSecondary)
-            }
-
-            Divider()
-                .overlay(Color.white.opacity(0.1))
-
             NavigationLink {
                 PrivacyStatementView()
             } label: {

@@ -181,7 +181,7 @@ enum ItemEditorSaveNotice {
         case .photoCouldNotSave:
             "Your item was saved without the new photo."
         case .remindersDisabled:
-            "Your item was saved. You can enable notifications for SafeSpot in iOS Settings."
+            "Your item was saved. You can enable notifications for this app in iOS Settings."
         case .reminderCouldNotSchedule:
             "Your item was saved, but the reminder could not be scheduled. Please try again."
         }

@@ -82,7 +82,7 @@ struct HomeView: View {
         if visibleItems.isEmpty {
             EmptyStateView(
                 title: "Nothing saved yet",
-                message: "Add your first important item and SafeSpot will remember where you put it.",
+                message: "Add your first important item and always remember where you put it.",
                 symbolName: "archivebox",
                 buttonTitle: "Add First Item"
             ) {

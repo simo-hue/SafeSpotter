@@ -143,7 +143,7 @@ struct ItemEditorView: View {
             } catch {
                 alert = ItemEditorAlert(
                     title: "Could Not Save Item",
-                    message: "SafeSpot could not save this item. Please try again.",
+                    message: "The app could not save this item. Please try again.",
                     shouldDismissEditor: false
                 )
             }

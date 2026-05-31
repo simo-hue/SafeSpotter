@@ -205,7 +205,7 @@ struct ItemDetailView: View {
                 }
                 HapticService.success()
             } catch {
-                errorMessage = "SafeSpot could not update this item. Please try again."
+                errorMessage = "The app could not update this item. Please try again."
             }
         }
     }
@@ -221,7 +221,7 @@ struct ItemDetailView: View {
             HapticService.warning()
             dismiss()
         } catch {
-            errorMessage = "SafeSpot could not delete this item. Please try again."
+            errorMessage = "The app could not delete this item. Please try again."
         }
     }
 }

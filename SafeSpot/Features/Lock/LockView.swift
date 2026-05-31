@@ -9,13 +9,18 @@ struct LockView: View {
         VStack(spacing: AppSpacing.lg) {
             Spacer()
 
-            Image("Logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 104, height: 104)
-                .clipShape(RoundedRectangle(cornerRadius: AppCorners.card, style: .continuous))
+            Image(systemName: "lock.shield.fill")
+                .font(.system(size: 72))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [AppColors.secondary, AppColors.primary],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .accessibilityHidden(true)
 
-            Text("SafeSpot is Locked")
+            Text("Vault Locked")
                 .font(.title.bold())
                 .foregroundStyle(AppColors.textPrimary)
 
@@ -66,4 +71,3 @@ struct LockView: View {
 #Preview {
     LockView(isAuthenticated: .constant(false))
 }
-
