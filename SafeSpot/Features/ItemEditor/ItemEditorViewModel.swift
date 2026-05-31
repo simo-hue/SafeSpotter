@@ -17,12 +17,18 @@ final class ItemEditorViewModel {
     var selectedImage: UIImage?
     var existingImage: UIImage?
     var shouldRemovePhoto = false
+    var reminderFrequency: ReminderFrequency
+    var customReminderDate: Date
 
     private let item: StoredItem?
     private let originalPhotoFileName: String?
     private let photoStorage: PhotoStorageService
 
-    init(item: StoredItem? = nil, photoStorage: PhotoStorageService = .shared) {
+    init(
+        item: StoredItem? = nil,
+        defaultReminderFrequency: ReminderFrequency = .none,
+        photoStorage: PhotoStorageService = .shared
+    ) {
         self.item = item
         self.photoStorage = photoStorage
         originalPhotoFileName = item?.photoFileName
@@ -35,6 +41,8 @@ final class ItemEditorViewModel {
         privateNote = item?.privateNote ?? ""
         sensitivity = item?.sensitivity ?? .normal
         existingImage = photoStorage.loadImage(fileName: item?.photoFileName)
+        reminderFrequency = item?.reminderFrequency ?? defaultReminderFrequency
+        customReminderDate = Self.initialCustomReminderDate(for: item)
     }
 
     var canSave: Bool {
@@ -49,6 +57,17 @@ final class ItemEditorViewModel {
         selectedImage ?? existingImage
     }
 
+    var resolvedReminderDate: Date? {
+        switch reminderFrequency {
+        case .none:
+            nil
+        case .custom:
+            customReminderDate
+        default:
+            ReminderDateCalculator.nextDate(frequency: reminderFrequency)
+        }
+    }
+
     func selectPhoto(_ image: UIImage) {
         selectedImage = image
         shouldRemovePhoto = false
@@ -60,11 +79,12 @@ final class ItemEditorViewModel {
         shouldRemovePhoto = true
     }
 
-    func save(in context: ModelContext) throws -> ItemEditorSaveNotice? {
+    func save(in context: ModelContext) throws -> ItemEditorSaveResult {
         let now = Date.now
         var finalPhotoFileName = originalPhotoFileName
         var newPhotoFileName: String?
         var notice: ItemEditorSaveNotice?
+        let savedItem: StoredItem
 
         if let selectedImage {
             do {
@@ -81,6 +101,7 @@ final class ItemEditorViewModel {
         if let item {
             applyValues(to: item, photoFileName: finalPhotoFileName)
             item.updatedAt = now
+            savedItem = item
         } else {
             let newItem = StoredItem(
                 name: trimmed(name),
@@ -93,9 +114,12 @@ final class ItemEditorViewModel {
                 photoFileName: finalPhotoFileName,
                 sensitivityRawValue: sensitivity.rawValue,
                 createdAt: now,
-                updatedAt: now
+                updatedAt: now,
+                reminderDate: resolvedReminderDate,
+                reminderFrequencyRawValue: reminderFrequency.rawValue
             )
             context.insert(newItem)
+            savedItem = newItem
         }
 
         do {
@@ -109,7 +133,7 @@ final class ItemEditorViewModel {
             photoStorage.deleteImage(fileName: originalPhotoFileName)
         }
 
-        return notice
+        return ItemEditorSaveResult(item: savedItem, notice: notice)
     }
 
     private func applyValues(to item: StoredItem, photoFileName: String?) {
@@ -122,21 +146,49 @@ final class ItemEditorViewModel {
         item.privateNote = trimmed(privateNote)
         item.photoFileName = photoFileName
         item.sensitivityRawValue = sensitivity.rawValue
+        item.reminderDate = resolvedReminderDate
+        item.reminderFrequencyRawValue = reminderFrequency.rawValue
     }
 
     private func trimmed(_ text: String) -> String {
         text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
+    private static func initialCustomReminderDate(for item: StoredItem?) -> Date {
+        if let date = item?.reminderDate, date > .now {
+            return date
+        }
+
+        return Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
+    }
 }
 
 enum ItemEditorSaveNotice {
     case photoCouldNotSave
+    case remindersDisabled
+    case reminderCouldNotSchedule
 
     var title: String {
-        "Could Not Save Photo"
+        switch self {
+        case .photoCouldNotSave: "Could Not Save Photo"
+        case .remindersDisabled: "Reminders Are Disabled"
+        case .reminderCouldNotSchedule: "Could Not Schedule Reminder"
+        }
     }
 
     var message: String {
-        "Your item was saved without the new photo."
+        switch self {
+        case .photoCouldNotSave:
+            "Your item was saved without the new photo."
+        case .remindersDisabled:
+            "Your item was saved. You can enable notifications for SafeSpot in iOS Settings."
+        case .reminderCouldNotSchedule:
+            "Your item was saved, but the reminder could not be scheduled. Please try again."
+        }
     }
+}
+
+struct ItemEditorSaveResult {
+    let item: StoredItem
+    let notice: ItemEditorSaveNotice?
 }

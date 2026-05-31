@@ -19,6 +19,10 @@ struct ItemDetailView: View {
                     noteSection
                 }
 
+                if let reminderDate = item.reminderDate {
+                    reminderSection(date: reminderDate)
+                }
+
                 metadataSection
                 actions
             }
@@ -132,6 +136,17 @@ struct ItemDetailView: View {
         }
     }
 
+    private func reminderSection(date: Date) -> some View {
+        SectionCard(title: "Reminder", systemImage: "bell.fill") {
+            Text(DateFormatters.displayWithTime(date))
+                .foregroundStyle(AppColors.textPrimary)
+
+            Text(item.reminderFrequency.title)
+                .font(.caption)
+                .foregroundStyle(AppColors.textSecondary)
+        }
+    }
+
     private var actions: some View {
         VStack(spacing: AppSpacing.sm) {
             PrimaryButton(title: "Mark as Checked", systemImage: "checkmark.circle.fill") {
@@ -165,14 +180,26 @@ struct ItemDetailView: View {
     }
 
     private func markAsChecked() {
-        item.lastCheckedAt = .now
-        item.updatedAt = .now
+        Task {
+            item.lastCheckedAt = .now
+            item.updatedAt = .now
 
-        do {
-            try modelContext.save()
-            HapticService.success()
-        } catch {
-            errorMessage = "SafeSpot could not update this item. Please try again."
+            if let nextDate = ReminderDateCalculator.nextDate(frequency: item.reminderFrequency) {
+                item.reminderDate = nextDate
+            } else if item.reminderFrequency == .custom {
+                item.reminderDate = nil
+            }
+
+            do {
+                try modelContext.save()
+                let reminderResult = await ReminderScheduler.shared.updateReminder(for: item)
+                if let notice = reminderResult.notice {
+                    errorMessage = notice.message
+                }
+                HapticService.success()
+            } catch {
+                errorMessage = "SafeSpot could not update this item. Please try again."
+            }
         }
     }
 
@@ -183,6 +210,7 @@ struct ItemDetailView: View {
         do {
             try modelContext.save()
             PhotoStorageService.shared.deleteImage(fileName: photoFileName)
+            ReminderScheduler.shared.cancelReminder(for: item.id)
             HapticService.warning()
             dismiss()
         } catch {

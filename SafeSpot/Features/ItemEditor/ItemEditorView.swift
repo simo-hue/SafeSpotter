@@ -6,9 +6,13 @@ struct ItemEditorView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: ItemEditorViewModel
     @State private var alert: ItemEditorAlert?
+    @State private var isSaving = false
 
-    init(item: StoredItem? = nil) {
-        _viewModel = State(initialValue: ItemEditorViewModel(item: item))
+    init(item: StoredItem? = nil, defaultReminderFrequency: ReminderFrequency = .none) {
+        _viewModel = State(initialValue: ItemEditorViewModel(
+            item: item,
+            defaultReminderFrequency: defaultReminderFrequency
+        ))
     }
 
     var body: some View {
@@ -21,11 +25,12 @@ struct ItemEditorView: View {
                     PhotoPickerSection(viewModel: viewModel)
                     noteSection
                     sensitivitySection
+                    ReminderSection(viewModel: viewModel)
 
                     PrimaryButton(
                         title: viewModel.isEditing ? "Save Changes" : "Save Item",
                         systemImage: "checkmark",
-                        isDisabled: !viewModel.canSave
+                        isDisabled: !viewModel.canSave || isSaving
                     ) {
                         save()
                     }
@@ -47,7 +52,7 @@ struct ItemEditorView: View {
                     Button("Save") {
                         save()
                     }
-                    .disabled(!viewModel.canSave)
+                    .disabled(!viewModel.canSave || isSaving)
                 }
             }
             .alert(item: $alert) { alert in
@@ -117,27 +122,33 @@ struct ItemEditorView: View {
     }
 
     private func save() {
-        guard viewModel.canSave else { return }
+        guard viewModel.canSave, !isSaving else { return }
+        isSaving = true
 
-        do {
-            let notice = try viewModel.save(in: modelContext)
-            HapticService.success()
+        Task {
+            do {
+                let saveResult = try viewModel.save(in: modelContext)
+                let reminderResult = await ReminderScheduler.shared.updateReminder(for: saveResult.item)
+                HapticService.success()
 
-            if let notice {
+                if let notice = saveResult.notice ?? reminderResult.notice {
+                    alert = ItemEditorAlert(
+                        title: notice.title,
+                        message: notice.message,
+                        shouldDismissEditor: true
+                    )
+                } else {
+                    dismiss()
+                }
+            } catch {
                 alert = ItemEditorAlert(
-                    title: notice.title,
-                    message: notice.message,
-                    shouldDismissEditor: true
+                    title: "Could Not Save Item",
+                    message: "SafeSpot could not save this item. Please try again.",
+                    shouldDismissEditor: false
                 )
-            } else {
-                dismiss()
             }
-        } catch {
-            alert = ItemEditorAlert(
-                title: "Could Not Save Item",
-                message: "SafeSpot could not save this item. Please try again.",
-                shouldDismissEditor: false
-            )
+
+            isSaving = false
         }
     }
 }
