@@ -17,7 +17,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA0000000000000000000001 /* SafeSpot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeSpot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000001 /* SafeSpotter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeSpotter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB0000000000000000000001 /* SafeSpotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SafeSpotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -56,7 +56,7 @@
 		AA0000000000000000000005 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA0000000000000000000001 /* SafeSpot.app */,
+				AA0000000000000000000001 /* SafeSpotter.app */,
 				BB0000000000000000000001 /* SafeSpotTests.xctest */,
 			);
 			name = Products;
@@ -84,7 +84,7 @@
 			packageProductDependencies = (
 			);
 			productName = SafeSpot;
-			productReference = AA0000000000000000000001 /* SafeSpot.app */;
+			productReference = AA0000000000000000000001 /* SafeSpotter.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BB0000000000000000000006 /* SafeSpotTests */ = {
@@ -260,7 +260,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.safespot;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SafeSpotter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -288,7 +288,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.safespot;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SafeSpotter;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

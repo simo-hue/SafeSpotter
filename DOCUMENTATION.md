@@ -18,3 +18,7 @@
     - **Micro-Interactions**: Added a dynamic radial gradient hover effect (mouse tracking via JavaScript) to the feature and contact cards (`.card-hover-effect`). Added shimmer effects to the App Store button.
     - **Depth**: Replaced simple shadows with ultra-realistic, multi-layered CSS drop-shadows and box-shadows.
     - **Typography**: Refactored heading sizing using aggressive `clamp()` functions for seamless fluidity between desktop and mobile.
+
+- [2026-05-31]: Fixed 404 Links for GitHub Pages Deployment
+  - *Details*: Converted absolute links to relative links across all HTML files so navigation works correctly regardless of the repository base path.
+  - *Tech Notes*: Updated `index.html`, `privacy.html`, `terms.html`, and `support.html` inside `website/` and ran `npm run build`.
