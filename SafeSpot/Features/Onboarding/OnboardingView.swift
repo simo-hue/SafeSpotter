@@ -2,8 +2,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @AppStorage(AppSettingsKey.hasCompletedOnboarding) private var hasCompletedOnboarding = false
+    @AppStorage(AppSettingsKey.isAppLockEnabled) private var isAppLockEnabled = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedPage = 0
+    @State private var isShowingProtectionChoice = false
+    @State private var isShowingProtectionError = false
 
     private let pages = OnboardingPage.all
 
@@ -35,7 +38,7 @@ struct OnboardingView: View {
 
             Button {
                 if selectedPage == pages.count - 1 {
-                    hasCompletedOnboarding = true
+                    isShowingProtectionChoice = true
                 } else {
                     selectedPage += 1
                 }
@@ -52,6 +55,29 @@ struct OnboardingView: View {
             .accessibilityHint(selectedPage == pages.count - 1 ? "Opens your private vault" : "Shows the next introduction screen")
         }
         .appScreenBackground()
+        .confirmationDialog(
+            "Protect SafeSpot with Face ID?",
+            isPresented: $isShowingProtectionChoice,
+            titleVisibility: .visible
+        ) {
+            Button("Enable Protection") {
+                enableProtection()
+            }
+
+            Button("Maybe Later") {
+                hasCompletedOnboarding = true
+            }
+        } message: {
+            Text("You can also enable Face ID or device passcode protection later in Settings.")
+        }
+        .alert("Could Not Enable Protection", isPresented: $isShowingProtectionError) {
+            Button("Continue Without Protection") {
+                hasCompletedOnboarding = true
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Set up a device passcode, Face ID, or Touch ID in iOS Settings, then try again.")
+        }
     }
 
     private func onboardingPage(_ page: OnboardingPage) -> some View {
@@ -84,6 +110,15 @@ struct OnboardingView: View {
         }
         .padding(AppSpacing.md)
     }
+
+    private func enableProtection() {
+        if AuthenticationService.shared.canAuthenticate() {
+            isAppLockEnabled = true
+            hasCompletedOnboarding = true
+        } else {
+            isShowingProtectionError = true
+        }
+    }
 }
 
 private struct OnboardingPage {
@@ -113,4 +148,3 @@ private struct OnboardingPage {
 #Preview {
     OnboardingView()
 }
-

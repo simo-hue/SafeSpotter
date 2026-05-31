@@ -8,6 +8,7 @@ struct HomeView: View {
     @State private var searchText = ""
     @State private var selectedCategory: ItemCategory?
     @State private var isShowingAddItem = false
+    @State private var isShowingSettings = false
 
     var body: some View {
         NavigationStack {
@@ -39,8 +40,21 @@ struct HomeView: View {
             }
             .appScreenBackground()
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isShowingSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                    }
+                    .accessibilityLabel("Settings")
+                }
+            }
             .sheet(isPresented: $isShowingAddItem) {
                 AddItemView()
+            }
+            .sheet(isPresented: $isShowingSettings) {
+                SettingsView()
             }
         }
     }
@@ -150,4 +164,3 @@ struct HomeView: View {
     HomeView()
         .modelContainer(for: StoredItem.self, inMemory: true)
 }
-
