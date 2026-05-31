@@ -62,19 +62,7 @@ struct ItemDetailView: View {
 
     private var hero: some View {
         VStack(spacing: AppSpacing.md) {
-            Image(systemName: item.category.symbolName)
-                .font(.system(size: 54))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [AppColors.secondary, AppColors.primary],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 124, height: 124)
-                .background(AppColors.elevatedSurface)
-                .clipShape(RoundedRectangle(cornerRadius: AppCorners.card, style: .continuous))
-                .accessibilityHidden(true)
+            heroImage
 
             Text(item.name)
                 .font(.title.bold())
@@ -90,6 +78,33 @@ struct ItemDetailView: View {
             }
         }
         .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private var heroImage: some View {
+        if let image = PhotoStorageService.shared.loadImage(fileName: item.photoFileName) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 230)
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: AppCorners.card, style: .continuous))
+                .accessibilityLabel("Photo of \(item.name)")
+        } else {
+            Image(systemName: item.category.symbolName)
+                .font(.system(size: 54))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [AppColors.secondary, AppColors.primary],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: 124, height: 124)
+                .background(AppColors.elevatedSurface)
+                .clipShape(RoundedRectangle(cornerRadius: AppCorners.card, style: .continuous))
+                .accessibilityHidden(true)
+        }
     }
 
     private var locationSection: some View {
@@ -162,10 +177,12 @@ struct ItemDetailView: View {
     }
 
     private func deleteItem() {
+        let photoFileName = item.photoFileName
         modelContext.delete(item)
 
         do {
             try modelContext.save()
+            PhotoStorageService.shared.deleteImage(fileName: photoFileName)
             HapticService.warning()
             dismiss()
         } catch {
@@ -173,4 +190,3 @@ struct ItemDetailView: View {
         }
     }
 }
-

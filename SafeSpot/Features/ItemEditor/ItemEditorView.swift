@@ -5,7 +5,7 @@ struct ItemEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: ItemEditorViewModel
-    @State private var errorMessage: String?
+    @State private var alert: ItemEditorAlert?
 
     init(item: StoredItem? = nil) {
         _viewModel = State(initialValue: ItemEditorViewModel(item: item))
@@ -18,6 +18,7 @@ struct ItemEditorView: View {
                     basicInfoSection
                     categorySection
                     LocationFieldsSection(viewModel: viewModel)
+                    PhotoPickerSection(viewModel: viewModel)
                     noteSection
                     sensitivitySection
 
@@ -49,13 +50,16 @@ struct ItemEditorView: View {
                     .disabled(!viewModel.canSave)
                 }
             }
-            .alert("Could Not Save Item", isPresented: Binding(
-                get: { errorMessage != nil },
-                set: { if !$0 { errorMessage = nil } }
-            )) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(errorMessage ?? "Please try again.")
+            .alert(item: $alert) { alert in
+                Alert(
+                    title: Text(alert.title),
+                    message: Text(alert.message),
+                    dismissButton: .default(Text("OK")) {
+                        if alert.shouldDismissEditor {
+                            dismiss()
+                        }
+                    }
+                )
             }
         }
         .tint(AppColors.secondary)
@@ -116,13 +120,33 @@ struct ItemEditorView: View {
         guard viewModel.canSave else { return }
 
         do {
-            try viewModel.save(in: modelContext)
+            let notice = try viewModel.save(in: modelContext)
             HapticService.success()
-            dismiss()
+
+            if let notice {
+                alert = ItemEditorAlert(
+                    title: notice.title,
+                    message: notice.message,
+                    shouldDismissEditor: true
+                )
+            } else {
+                dismiss()
+            }
         } catch {
-            errorMessage = "SafeSpot could not save this item. Please try again."
+            alert = ItemEditorAlert(
+                title: "Could Not Save Item",
+                message: "SafeSpot could not save this item. Please try again.",
+                shouldDismissEditor: false
+            )
         }
     }
+}
+
+private struct ItemEditorAlert: Identifiable {
+    let id = UUID()
+    let title: String
+    let message: String
+    let shouldDismissEditor: Bool
 }
 
 struct EditorTextField: View {
@@ -142,4 +166,3 @@ struct EditorTextField: View {
         }
     }
 }
-

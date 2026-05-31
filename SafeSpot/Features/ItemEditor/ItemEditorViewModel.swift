@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftData
+import UIKit
 
 @MainActor
 @Observable
@@ -13,11 +14,18 @@ final class ItemEditorViewModel {
     var exactSpot: String
     var privateNote: String
     var sensitivity: SensitivityLevel
+    var selectedImage: UIImage?
+    var existingImage: UIImage?
+    var shouldRemovePhoto = false
 
     private let item: StoredItem?
+    private let originalPhotoFileName: String?
+    private let photoStorage: PhotoStorageService
 
-    init(item: StoredItem? = nil) {
+    init(item: StoredItem? = nil, photoStorage: PhotoStorageService = .shared) {
         self.item = item
+        self.photoStorage = photoStorage
+        originalPhotoFileName = item?.photoFileName
         name = item?.name ?? ""
         category = item?.category ?? .other
         place = item?.place ?? ""
@@ -26,6 +34,7 @@ final class ItemEditorViewModel {
         exactSpot = item?.exactSpot ?? ""
         privateNote = item?.privateNote ?? ""
         sensitivity = item?.sensitivity ?? .normal
+        existingImage = photoStorage.loadImage(fileName: item?.photoFileName)
     }
 
     var canSave: Bool {
@@ -36,11 +45,41 @@ final class ItemEditorViewModel {
         item != nil
     }
 
-    func save(in context: ModelContext) throws {
+    var displayedImage: UIImage? {
+        selectedImage ?? existingImage
+    }
+
+    func selectPhoto(_ image: UIImage) {
+        selectedImage = image
+        shouldRemovePhoto = false
+    }
+
+    func removePhoto() {
+        selectedImage = nil
+        existingImage = nil
+        shouldRemovePhoto = true
+    }
+
+    func save(in context: ModelContext) throws -> ItemEditorSaveNotice? {
         let now = Date.now
+        var finalPhotoFileName = originalPhotoFileName
+        var newPhotoFileName: String?
+        var notice: ItemEditorSaveNotice?
+
+        if let selectedImage {
+            do {
+                let savedFileName = try photoStorage.saveImage(selectedImage)
+                newPhotoFileName = savedFileName
+                finalPhotoFileName = savedFileName
+            } catch {
+                notice = .photoCouldNotSave
+            }
+        } else if shouldRemovePhoto {
+            finalPhotoFileName = nil
+        }
 
         if let item {
-            applyValues(to: item)
+            applyValues(to: item, photoFileName: finalPhotoFileName)
             item.updatedAt = now
         } else {
             let newItem = StoredItem(
@@ -51,6 +90,7 @@ final class ItemEditorViewModel {
                 container: trimmed(container),
                 exactSpot: trimmed(exactSpot),
                 privateNote: trimmed(privateNote),
+                photoFileName: finalPhotoFileName,
                 sensitivityRawValue: sensitivity.rawValue,
                 createdAt: now,
                 updatedAt: now
@@ -58,10 +98,21 @@ final class ItemEditorViewModel {
             context.insert(newItem)
         }
 
-        try context.save()
+        do {
+            try context.save()
+        } catch {
+            photoStorage.deleteImage(fileName: newPhotoFileName)
+            throw error
+        }
+
+        if originalPhotoFileName != finalPhotoFileName {
+            photoStorage.deleteImage(fileName: originalPhotoFileName)
+        }
+
+        return notice
     }
 
-    private func applyValues(to item: StoredItem) {
+    private func applyValues(to item: StoredItem, photoFileName: String?) {
         item.name = trimmed(name)
         item.categoryRawValue = category.rawValue
         item.place = trimmed(place)
@@ -69,6 +120,7 @@ final class ItemEditorViewModel {
         item.container = trimmed(container)
         item.exactSpot = trimmed(exactSpot)
         item.privateNote = trimmed(privateNote)
+        item.photoFileName = photoFileName
         item.sensitivityRawValue = sensitivity.rawValue
     }
 
@@ -77,3 +129,14 @@ final class ItemEditorViewModel {
     }
 }
 
+enum ItemEditorSaveNotice {
+    case photoCouldNotSave
+
+    var title: String {
+        "Could Not Save Photo"
+    }
+
+    var message: String {
+        "Your item was saved without the new photo."
+    }
+}
