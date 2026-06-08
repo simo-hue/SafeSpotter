@@ -43,9 +43,6 @@ struct LockView: View {
         }
         .padding(AppSpacing.lg)
         .appScreenBackground()
-        .task {
-            await authenticate()
-        }
         .alert("Could Not Unlock", isPresented: $isShowingAuthenticationError) {
             Button("OK", role: .cancel) {}
         } message: {

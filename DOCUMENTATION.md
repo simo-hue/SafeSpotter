@@ -43,3 +43,7 @@
     - Corrected the test host and Swift module build settings after the app product was renamed to `SafeSpotter`.
     - Added CloudKit status, synchronized photo processing, and legacy photo migration tests. Verification completed with 12 passing unit tests, a clean Debug simulator build, a clean Release simulator build, and a successful Vite production build.
     - No third-party dependencies or developer-operated endpoints were added.
+
+- [2026-06-08 22:54 CEST]: Lock Screen Manual Unlock Fix
+  - *Details*: Removed the automatic authentication attempt that ran as soon as the lock screen appeared. When app lock is enabled and the app reopens, SafeSpot now shows the locked screen and waits for the user to tap `Unlock` before invoking Face ID or passcode authentication.
+  - *Tech Notes*: Updated `LockView` to only call `AuthenticationService.authenticate()` from the unlock button action. No new dependencies, endpoints, entitlements, or manual setup steps were added.
