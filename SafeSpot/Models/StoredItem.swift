@@ -3,25 +3,29 @@ import SwiftData
 
 @Model
 final class StoredItem {
-    var id: UUID
-    var name: String
-    var categoryRawValue: String
-    var place: String
-    var room: String
-    var container: String
-    var exactSpot: String
-    var privateNote: String
+    var id: UUID = UUID()
+    var modelVersion: Int = 1
+    @Attribute(.allowsCloudEncryption) var name: String = ""
+    @Attribute(.allowsCloudEncryption) var categoryRawValue: String = ItemCategory.other.rawValue
+    @Attribute(.allowsCloudEncryption) var place: String = ""
+    @Attribute(.allowsCloudEncryption) var room: String = ""
+    @Attribute(.allowsCloudEncryption) var container: String = ""
+    @Attribute(.allowsCloudEncryption) var exactSpot: String = ""
+    @Attribute(.allowsCloudEncryption) var privateNote: String = ""
+    @Attribute(.externalStorage) var photoData: Data?
+    // Retained temporarily so existing on-device photos can migrate into photoData.
     var photoFileName: String?
-    var sensitivityRawValue: String
-    var createdAt: Date
-    var updatedAt: Date
-    var lastCheckedAt: Date?
-    var reminderDate: Date?
-    var reminderFrequencyRawValue: String
-    var isArchived: Bool
+    @Attribute(.allowsCloudEncryption) var sensitivityRawValue: String = SensitivityLevel.normal.rawValue
+    @Attribute(.allowsCloudEncryption) var createdAt: Date = Date.now
+    @Attribute(.allowsCloudEncryption) var updatedAt: Date = Date.now
+    @Attribute(.allowsCloudEncryption) var lastCheckedAt: Date?
+    @Attribute(.allowsCloudEncryption) var reminderDate: Date?
+    @Attribute(.allowsCloudEncryption) var reminderFrequencyRawValue: String = ReminderFrequency.none.rawValue
+    @Attribute(.allowsCloudEncryption) var isArchived: Bool = false
 
     init(
         id: UUID = UUID(),
+        modelVersion: Int = 1,
         name: String,
         categoryRawValue: String = ItemCategory.other.rawValue,
         place: String = "",
@@ -29,6 +33,7 @@ final class StoredItem {
         container: String = "",
         exactSpot: String = "",
         privateNote: String = "",
+        photoData: Data? = nil,
         photoFileName: String? = nil,
         sensitivityRawValue: String = SensitivityLevel.normal.rawValue,
         createdAt: Date = .now,
@@ -39,6 +44,7 @@ final class StoredItem {
         isArchived: Bool = false
     ) {
         self.id = id
+        self.modelVersion = modelVersion
         self.name = name
         self.categoryRawValue = categoryRawValue
         self.place = place
@@ -46,6 +52,7 @@ final class StoredItem {
         self.container = container
         self.exactSpot = exactSpot
         self.privateNote = privateNote
+        self.photoData = photoData
         self.photoFileName = photoFileName
         self.sensitivityRawValue = sensitivityRawValue
         self.createdAt = createdAt
@@ -56,4 +63,3 @@ final class StoredItem {
         self.isArchived = isArchived
     }
 }
-

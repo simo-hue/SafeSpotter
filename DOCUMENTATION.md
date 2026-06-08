@@ -30,3 +30,16 @@
 - [2026-05-31]: Created Project README
   - *Details*: Authored a comprehensive and professional README.md in English for the SafeSpot repository.
   - *Tech Notes*: Based the content entirely on the existing `specifiche.md` and the implemented codebase (SwiftData, Face ID, local notifications, SwiftUI architecture).
+
+- [2026-06-08 22:33 CEST]: Private iCloud Synchronization
+  - *Details*: Added offline-first, automatic synchronization of SafeSpot items across a user's devices through the private CloudKit container `iCloud.com.safespot`. Existing local data remains in SwiftData and is mirrored by Apple's managed SwiftData/Core Data CloudKit integration.
+  - *Tech Notes*:
+    - Added an explicit `ModelConfiguration` using `.private("iCloud.com.safespot")` and a Debug-only, launch-argument-gated CloudKit schema initializer.
+    - Updated `StoredItem` with CloudKit-compatible defaults, encrypted CloudKit fields for private item data, a forward-compatibility model version, and externally stored photo data.
+    - Replaced new local photo-file writes with resized, metadata-stripped JPEG data stored by SwiftData and synchronized as encrypted CloudKit assets.
+    - Added a save-before-delete migration for photos created by older app versions.
+    - Added iCloud account availability UI, automatic account-status refresh, remote reminder reconciliation, and the required `remote-notification` background mode.
+    - Updated onboarding, privacy disclosures, App Store metadata, README, website source, and generated website artifacts to accurately describe private iCloud synchronization.
+    - Corrected the test host and Swift module build settings after the app product was renamed to `SafeSpotter`.
+    - Added CloudKit status, synchronized photo processing, and legacy photo migration tests. Verification completed with 12 passing unit tests, a clean Debug simulator build, a clean Release simulator build, and a successful Vite production build.
+    - No third-party dependencies or developer-operated endpoints were added.

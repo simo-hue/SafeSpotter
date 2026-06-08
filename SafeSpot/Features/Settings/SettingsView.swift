@@ -1,18 +1,22 @@
 import SwiftUI
+import UIKit
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @AppStorage(AppSettingsKey.isAppLockEnabled) private var isAppLockEnabled = false
     @AppStorage(AppSettingsKey.isDiscreetModeEnabled) private var isDiscreetModeEnabled = false
     @AppStorage(AppSettingsKey.defaultReminderFrequency) private var defaultReminderRawValue = ReminderFrequency.none.rawValue
     @State private var isShowingProtectionError = false
     @State private var isUpdatingProtection = false
+    @State private var cloudSyncMonitor = CloudSyncMonitor()
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: AppSpacing.md) {
                     privacySection
+                    cloudSyncSection
                     reminderSection
                     aboutSection
                 }
@@ -35,6 +39,54 @@ struct SettingsView: View {
             }
         }
         .tint(AppColors.secondary)
+        .task {
+            await cloudSyncMonitor.refresh()
+        }
+    }
+
+    private var cloudSyncSection: some View {
+        SectionCard(title: "iCloud Sync", systemImage: "icloud.fill") {
+            HStack(alignment: .top, spacing: AppSpacing.sm) {
+                Image(systemName: cloudSyncStatusSymbol)
+                    .foregroundStyle(cloudSyncStatusColor)
+                    .frame(width: 24)
+
+                VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                    Text(cloudSyncStatusTitle)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(AppColors.textPrimary)
+
+                    Text(cloudSyncStatusMessage)
+                        .font(.caption)
+                        .foregroundStyle(AppColors.textSecondary)
+                }
+
+                Spacer(minLength: 0)
+
+                if cloudSyncMonitor.isRefreshing {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+            }
+
+            Text("Items, notes, locations, reminder settings, and photos sync automatically through your private iCloud database and remain available offline.")
+                .font(.caption)
+                .foregroundStyle(AppColors.textSecondary)
+
+            if cloudSyncMonitor.availability != .available
+                && cloudSyncMonitor.availability != .checking {
+                Button("Open Settings") {
+                    guard let settingsURL = URL(
+                        string: UIApplication.openSettingsURLString
+                    ) else {
+                        return
+                    }
+
+                    openURL(settingsURL)
+                }
+                .buttonStyle(.bordered)
+            }
+        }
     }
 
     private var privacySection: some View {
@@ -93,7 +145,7 @@ struct SettingsView: View {
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(AppColors.textPrimary)
 
-                        Text("Stored locally on this iPhone. No tracking SDKs.")
+                        Text("Private iCloud sync. No tracking SDKs.")
                             .font(.caption)
                             .foregroundStyle(AppColors.textSecondary)
                     }
@@ -124,6 +176,62 @@ struct SettingsView: View {
 
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+    }
+
+    private var cloudSyncStatusTitle: String {
+        switch cloudSyncMonitor.availability {
+        case .checking:
+            "Checking iCloud"
+        case .available:
+            "iCloud Available"
+        case .noAccount:
+            "Sign In to iCloud"
+        case .restricted:
+            "iCloud Restricted"
+        case .temporarilyUnavailable:
+            "iCloud Temporarily Unavailable"
+        case .unavailable:
+            "Could Not Check iCloud"
+        }
+    }
+
+    private var cloudSyncStatusMessage: String {
+        switch cloudSyncMonitor.availability {
+        case .checking:
+            "Checking whether private iCloud sync is available on this device."
+        case .available:
+            "SafeSpot can synchronize changes using the iCloud account on this device."
+        case .noAccount:
+            "Sign in to an iCloud account in Settings to synchronize across devices."
+        case .restricted:
+            "Device restrictions currently prevent SafeSpot from accessing iCloud."
+        case .temporarilyUnavailable:
+            "Keep your local data. SafeSpot will retry automatically when iCloud is available."
+        case .unavailable:
+            "SafeSpot could not determine the iCloud account status. Local data remains available."
+        }
+    }
+
+    private var cloudSyncStatusSymbol: String {
+        switch cloudSyncMonitor.availability {
+        case .available:
+            "checkmark.circle.fill"
+        case .checking:
+            "arrow.triangle.2.circlepath.icloud"
+        case .noAccount, .restricted, .temporarilyUnavailable, .unavailable:
+            "exclamationmark.triangle.fill"
+        }
+    }
+
+    private var cloudSyncStatusColor: Color {
+        switch cloudSyncMonitor.availability {
+        case .available:
+            AppColors.secondary
+        case .checking:
+            AppColors.textSecondary
+        case .noAccount, .restricted, .temporarilyUnavailable, .unavailable:
+            .orange
+        }
     }
 
     private func updateAppLock(isEnabled: Bool) {

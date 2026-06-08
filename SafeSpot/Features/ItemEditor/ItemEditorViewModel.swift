@@ -40,7 +40,8 @@ final class ItemEditorViewModel {
         exactSpot = item?.exactSpot ?? ""
         privateNote = item?.privateNote ?? ""
         sensitivity = item?.sensitivity ?? .normal
-        existingImage = photoStorage.loadImage(fileName: item?.photoFileName)
+        existingImage = photoStorage.image(from: item?.photoData)
+            ?? photoStorage.loadLegacyImage(fileName: item?.photoFileName)
         reminderFrequency = item?.reminderFrequency ?? defaultReminderFrequency
         customReminderDate = Self.initialCustomReminderDate(for: item)
     }
@@ -81,25 +82,41 @@ final class ItemEditorViewModel {
 
     func save(in context: ModelContext) throws -> ItemEditorSaveResult {
         let now = Date.now
+        var finalPhotoData = item?.photoData
         var finalPhotoFileName = originalPhotoFileName
-        var newPhotoFileName: String?
         var notice: ItemEditorSaveNotice?
         let savedItem: StoredItem
 
         if let selectedImage {
             do {
-                let savedFileName = try photoStorage.saveImage(selectedImage)
-                newPhotoFileName = savedFileName
-                finalPhotoFileName = savedFileName
+                finalPhotoData = try photoStorage.makeSyncableData(from: selectedImage)
+                finalPhotoFileName = nil
             } catch {
                 notice = .photoCouldNotSave
             }
         } else if shouldRemovePhoto {
+            finalPhotoData = nil
             finalPhotoFileName = nil
+        } else if finalPhotoData == nil,
+                  let legacyImage = photoStorage.loadLegacyImage(
+                    fileName: originalPhotoFileName
+                  ) {
+            do {
+                finalPhotoData = try photoStorage.makeSyncableData(
+                    from: legacyImage
+                )
+                finalPhotoFileName = nil
+            } catch {
+                notice = .photoCouldNotSave
+            }
         }
 
         if let item {
-            applyValues(to: item, photoFileName: finalPhotoFileName)
+            applyValues(
+                to: item,
+                photoData: finalPhotoData,
+                photoFileName: finalPhotoFileName
+            )
             item.updatedAt = now
             savedItem = item
         } else {
@@ -111,6 +128,7 @@ final class ItemEditorViewModel {
                 container: trimmed(container),
                 exactSpot: trimmed(exactSpot),
                 privateNote: trimmed(privateNote),
+                photoData: finalPhotoData,
                 photoFileName: finalPhotoFileName,
                 sensitivityRawValue: sensitivity.rawValue,
                 createdAt: now,
@@ -125,18 +143,22 @@ final class ItemEditorViewModel {
         do {
             try context.save()
         } catch {
-            photoStorage.deleteImage(fileName: newPhotoFileName)
+            context.rollback()
             throw error
         }
 
         if originalPhotoFileName != finalPhotoFileName {
-            photoStorage.deleteImage(fileName: originalPhotoFileName)
+            photoStorage.deleteLegacyImage(fileName: originalPhotoFileName)
         }
 
         return ItemEditorSaveResult(item: savedItem, notice: notice)
     }
 
-    private func applyValues(to item: StoredItem, photoFileName: String?) {
+    private func applyValues(
+        to item: StoredItem,
+        photoData: Data?,
+        photoFileName: String?
+    ) {
         item.name = trimmed(name)
         item.categoryRawValue = category.rawValue
         item.place = trimmed(place)
@@ -144,6 +166,7 @@ final class ItemEditorViewModel {
         item.container = trimmed(container)
         item.exactSpot = trimmed(exactSpot)
         item.privateNote = trimmed(privateNote)
+        item.photoData = photoData
         item.photoFileName = photoFileName
         item.sensitivityRawValue = sensitivity.rawValue
         item.reminderDate = resolvedReminderDate

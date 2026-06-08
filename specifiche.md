@@ -1,5 +1,7 @@
 # SafeSpot iOS App — Complete Implementation Specification
 
+> **2026-06-08 architecture update:** The product now includes private iCloud synchronization through CloudKit. This decision supersedes the local-only and “no cloud sync” constraints below. SafeSpot still requires no app-specific account, uses no developer backend, and remains fully usable offline.
+
 > **Document purpose:** This file is a step-by-step implementation guide for a coding agent working in Cursor with GPT-5.5.  
 > **Product type:** Native iOS app.  
 > **Language:** Swift.  
@@ -2754,4 +2756,3 @@ Do not add analytics.
 Do not add extra features before the MVP is complete.  
 Keep the UI modern, polished, and fully English.  
 Prioritize speed, privacy, simplicity, and trust.
-

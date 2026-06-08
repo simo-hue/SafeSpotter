@@ -60,21 +60,21 @@
       line-height: 1.6;
     }
   </style>
-  <script type="module" crossorigin src="/assets/main-CWwUKbt8.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-DcWLvK-w.css">
+  <script type="module" crossorigin src="/SafeSpotter/assets/main-CWwUKbt8.js"></script>
+  <link rel="stylesheet" crossorigin href="/SafeSpotter/assets/main-DcWLvK-w.css">
 </head>
 <body>
 
   <nav>
     <div class="container nav-content">
-      <a href="/" class="logo">
-        <img src="/assets/logo-wIpIzrVC.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
+      <a href="/SafeSpotter/" class="logo">
+        <img src="/SafeSpotter/assets/logo-wIpIzrVC.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
         SafeSpot
       </a>
       <div class="nav-links">
-        <a href="/#features">Features</a>
-        <a href="/privacy.html">Privacy</a>
-        <a href="/support.html" style="color: var(--text-primary);">Support</a>
+        <a href="/SafeSpotter/index.html#features">Features</a>
+        <a href="/SafeSpotter/privacy.html">Privacy</a>
+        <a href="/SafeSpotter/support.html" style="color: var(--text-primary);">Support</a>
       </div>
     </div>
   </nav>
@@ -89,7 +89,7 @@
 
       <div class="glass-panel contact-card reveal card-hover-effect" style="transition-delay: 0.1s;">
         <h2>Need direct assistance?</h2>
-        <p style="margin-bottom: var(--spacing-lg);">Since SafeSpot is a local-only app, we cannot access your data or reset passwords for you. However, if you've found a bug, have a feature request, or need help understanding the app, please reach out!</p>
+        <p style="margin-bottom: var(--spacing-lg);">SafeSpot uses your private iCloud database, which is not visible to us through the Developer Portal. We cannot inspect your content or reset iCloud credentials. If you've found a bug, have a feature request, or need help understanding the app, please reach out!</p>
         <a href="mailto:support@safespot-app.com" class="btn btn-primary">Email Support</a>
       </div>
 
@@ -98,7 +98,7 @@
 
         <div class="faq-item">
           <div class="faq-question">How do I back up my data?</div>
-          <div class="faq-answer">Because SafeSpot is strictly local-only and has no cloud component, your data is backed up when you perform a full device backup to iCloud or your computer. We do not sync your items to our servers.</div>
+          <div class="faq-answer">SafeSpot stores an offline copy on each device and synchronizes through your private iCloud database when iCloud is available. SafeSpot does not operate a developer backend for your content.</div>
         </div>
 
         <div class="faq-item">
@@ -108,7 +108,7 @@
 
         <div class="faq-item">
           <div class="faq-question">Can you see what I store in SafeSpot?</div>
-          <div class="faq-answer">Absolutely not. We have no analytics, no backend, and no crash reporters. Your data never leaves the secure sandbox on your iPhone.</div>
+          <div class="faq-answer">Absolutely not. We have no analytics, advertising, or third-party tracking SDKs. Your saved content is stored locally and in your private iCloud database for synchronization.</div>
         </div>
 
         <div class="faq-item">

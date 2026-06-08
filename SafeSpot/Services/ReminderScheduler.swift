@@ -10,14 +10,19 @@ final class ReminderScheduler {
         self.notificationCenter = notificationCenter
     }
 
-    func updateReminder(for item: StoredItem) async -> ReminderScheduleResult {
+    func updateReminder(
+        for item: StoredItem,
+        requestAuthorizationIfNeeded: Bool = true
+    ) async -> ReminderScheduleResult {
         cancelReminder(for: item.id)
 
         guard let date = item.reminderDate, date > .now else {
             return .cancelled
         }
 
-        guard await requestPermissionIfNeeded() else {
+        guard await hasPermission(
+            requestAuthorizationIfNeeded: requestAuthorizationIfNeeded
+        ) else {
             return .permissionDenied
         }
 
@@ -51,18 +56,59 @@ final class ReminderScheduler {
         )
     }
 
-    private func requestPermissionIfNeeded() async -> Bool {
+    func reconcileReminders(for items: [StoredItem]) async {
+        let desiredItems = items.filter {
+            !$0.isArchived && ($0.reminderDate.map { $0 > .now } ?? false)
+        }
+        let desiredIdentifiers = Set(
+            desiredItems.map { notificationIdentifier(for: $0.id) }
+        )
+        let pendingRequests = await notificationCenter.pendingNotificationRequests()
+        let staleIdentifiers = pendingRequests
+            .map(\.identifier)
+            .filter {
+                $0.hasPrefix("safespot.item-reminder.")
+                    && !desiredIdentifiers.contains($0)
+            }
+
+        if !staleIdentifiers.isEmpty {
+            notificationCenter.removePendingNotificationRequests(
+                withIdentifiers: staleIdentifiers
+            )
+        }
+
+        guard await hasPermission(requestAuthorizationIfNeeded: false) else {
+            return
+        }
+
+        for item in desiredItems {
+            _ = await updateReminder(
+                for: item,
+                requestAuthorizationIfNeeded: false
+            )
+        }
+    }
+
+    private func hasPermission(
+        requestAuthorizationIfNeeded: Bool
+    ) async -> Bool {
         let settings = await notificationCenter.notificationSettings()
 
-        return switch settings.authorizationStatus {
+        switch settings.authorizationStatus {
         case .authorized, .provisional, .ephemeral:
-            true
+            return true
         case .denied:
-            false
+            return false
         case .notDetermined:
-            (try? await notificationCenter.requestAuthorization(options: [.alert, .sound, .badge])) ?? false
+            guard requestAuthorizationIfNeeded else {
+                return false
+            }
+
+            return (try? await notificationCenter.requestAuthorization(
+                options: [.alert, .sound, .badge]
+            )) ?? false
         @unknown default:
-            false
+            return false
         }
     }
 

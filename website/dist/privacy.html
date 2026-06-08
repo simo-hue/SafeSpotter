@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy - SafeSpot</title>
-  <meta name="description" content="Privacy Policy for SafeSpot. We believe in absolute privacy. No accounts, no cloud, no tracking." />
+  <meta name="description" content="Privacy Policy for SafeSpot. No SafeSpot account, private iCloud sync, and no tracking." />
   <style>
     .legal-content {
       max-width: 800px;
@@ -45,21 +45,21 @@
       margin-bottom: var(--spacing-xs);
     }
   </style>
-  <script type="module" crossorigin src="/assets/main-CWwUKbt8.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-DcWLvK-w.css">
+  <script type="module" crossorigin src="/SafeSpotter/assets/main-CWwUKbt8.js"></script>
+  <link rel="stylesheet" crossorigin href="/SafeSpotter/assets/main-DcWLvK-w.css">
 </head>
 <body>
 
   <nav>
     <div class="container nav-content">
-      <a href="/" class="logo">
-        <img src="/assets/logo-wIpIzrVC.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
+      <a href="/SafeSpotter/" class="logo">
+        <img src="/SafeSpotter/assets/logo-wIpIzrVC.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
         SafeSpot
       </a>
       <div class="nav-links">
-        <a href="/#features">Features</a>
-        <a href="/privacy.html" style="color: var(--text-primary);">Privacy</a>
-        <a href="/support.html">Support</a>
+        <a href="/SafeSpotter/index.html#features">Features</a>
+        <a href="/SafeSpotter/privacy.html" style="color: var(--text-primary);">Privacy</a>
+        <a href="/SafeSpotter/support.html">Support</a>
       </div>
     </div>
   </nav>
@@ -67,17 +67,17 @@
   <main>
     <div class="container legal-content reveal">
       <h1>Privacy Policy</h1>
-      <div class="last-updated">Last Updated: May 31, 2026</div>
+      <div class="last-updated">Last Updated: June 8, 2026</div>
 
       <div class="glass-panel feature-card card-hover-effect" style="margin-bottom: var(--spacing-xl);">
         <h3 style="color: var(--secondary-color); margin-bottom: var(--spacing-sm);">TL;DR: We have zero access to your data.</h3>
-        <p style="margin: 0;">SafeSpot is designed to be 100% local. We do not have servers, we do not require accounts, and we do not collect telemetry, analytics, or crash reports. Your data stays on your device.</p>
+        <p style="margin: 0;">SafeSpot requires no app-specific account and uses no developer backend for your content. Your data remains available offline and synchronizes through your private iCloud database. We do not collect telemetry, analytics, or crash reports.</p>
       </div>
 
       <div class="legal-section">
         <h2>1. Data Storage</h2>
-        <p>All data you enter into SafeSpot (including item names, locations, private notes, and photos) is stored exclusively on your local device (iPhone). We do not use cloud synchronization, and we do not have a backend server.</p>
-        <p>If you delete the app, all your SafeSpot data is permanently deleted from your device. We cannot recover it for you.</p>
+        <p>Data you enter into SafeSpot, including item names, locations, private notes, reminder settings, and photos, is stored locally for offline use and synchronized through Apple's CloudKit service in your private iCloud database.</p>
+        <p>SafeSpot does not operate a backend server and does not receive your saved content. Deleting the app removes its local copy; data synchronized with iCloud may remain available to SafeSpot on your other devices or after reinstalling.</p>
       </div>
 
       <div class="legal-section">
@@ -98,12 +98,12 @@
 
       <div class="legal-section">
         <h2>4. Photos and Camera Access</h2>
-        <p>If you choose to attach photos to your items, SafeSpot uses the native iOS <code>PhotosUI</code> picker. We only have access to the specific photos you select. These photos are copied to the app's local sandbox storage and never uploaded anywhere.</p>
+        <p>If you choose to attach photos to your items, SafeSpot uses the native iOS <code>PhotosUI</code> picker. We only have access to the specific photos you select. Photos are stored locally and synchronized as encrypted CloudKit assets in your private iCloud database.</p>
       </div>
 
       <div class="legal-section">
         <h2>5. Notifications</h2>
-        <p>SafeSpot uses local notifications to remind you to check your items. These notifications are scheduled and triggered entirely locally on your device. We do not use Apple Push Notification service (APNs), and no remote server is involved in sending these reminders.</p>
+        <p>SafeSpot uses local notifications to remind you to check your items. Reminder alerts are scheduled and triggered locally. CloudKit uses silent Apple Push Notification service messages to notify the app about synchronization changes; these are not marketing notifications and do not contain your reminder alert text.</p>
       </div>
 
       <div class="legal-section">
@@ -113,7 +113,7 @@
 
       <div class="legal-section">
         <h2>7. Contact Us</h2>
-        <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at the details provided on our <a href="/support.html">Support page</a>.</p>
+        <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at the details provided on our <a href="/SafeSpotter/support.html">Support page</a>.</p>
       </div>
     </div>
   </main>

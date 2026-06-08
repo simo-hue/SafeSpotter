@@ -51,7 +51,7 @@ struct ItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This will remove the item and its photo from this iPhone. This action cannot be undone.")
+            Text("This removes the item and its photo from SafeSpot on your devices through iCloud. This action cannot be undone.")
         }
         .alert("Could Not Update Item", isPresented: Binding(
             get: { errorMessage != nil },
@@ -86,7 +86,8 @@ struct ItemDetailView: View {
 
     @ViewBuilder
     private var heroImage: some View {
-        if let image = PhotoStorageService.shared.loadImage(fileName: item.photoFileName) {
+        if let image = PhotoStorageService.shared.image(from: item.photoData)
+            ?? PhotoStorageService.shared.loadLegacyImage(fileName: item.photoFileName) {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
@@ -216,7 +217,7 @@ struct ItemDetailView: View {
 
         do {
             try modelContext.save()
-            PhotoStorageService.shared.deleteImage(fileName: photoFileName)
+            PhotoStorageService.shared.deleteLegacyImage(fileName: photoFileName)
             ReminderScheduler.shared.cancelReminder(for: item.id)
             HapticService.warning()
             dismiss()

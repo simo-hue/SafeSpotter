@@ -5,7 +5,7 @@
 **Primary Language:** English (U.S.)  
 **Document purpose:** Copy/paste-ready App Store Connect metadata and submission checklist for the first public release of the app.
 
-> Important: This document assumes the app is implemented as a fully local-first iOS app with no account system, no cloud sync, no backend, no analytics SDKs, no advertising SDKs, no third-party tracking SDKs, and no developer-accessible telemetry. If any of those assumptions change, update the App Privacy answers and Privacy Policy before submitting.
+> Important: This document assumes the app uses a private CloudKit database for iCloud synchronization, requires no SafeSpot account, has no developer backend, and includes no analytics, advertising, or third-party tracking SDKs. Revalidate the App Privacy answers and Privacy Policy before submitting.
 
 ---
 
@@ -15,12 +15,12 @@
 SafeSpot is a private iPhone app that helps users remember where they placed important items, documents, keys, backups, and valuables.
 
 ### Core Promise
-Remember where you put important things — privately, locally, and without an account.
+Remember where you put important things — privately, offline, and without a SafeSpot account.
 
 ### Main Differentiators
-- Everything stays on the iPhone.
+- Everything remains available offline.
 - No account required.
-- No cloud sync.
+- Private iCloud sync.
 - No tracking.
 - Face ID protection.
 - Designed for important items users do not access every day.
@@ -28,7 +28,7 @@ Remember where you put important things — privately, locally, and without an a
 ### Target Users
 - People who often put important items “somewhere safe” and later forget the exact location.
 - Users who want a private, simple way to track where documents, keys, backup drives, cards, or small valuables are stored.
-- Users who prefer local-first apps without subscriptions, accounts, or cloud storage.
+- Users who prefer offline-first apps without subscriptions, app-specific accounts, or developer-operated storage.
 
 ---
 
@@ -255,7 +255,7 @@ Example:
 **Recommended value:**
 
 ```text
-Save where you keep important items, protect them with Face ID, and find them later in seconds. No account, no cloud, no tracking.
+Save where you keep important items, protect them with Face ID, and sync privately with iCloud. No SafeSpot account or tracking.
 ```
 
 ### Character count
@@ -293,15 +293,15 @@ WHY SAFESPOT
 • Protect access with Face ID or device passcode
 • Use Private Mode for sensitive items
 • Set local reminders to check important items periodically
-• Keep everything on your iPhone
+• Keep everything available offline
 • No account required
-• No cloud sync
+• Private iCloud sync
 • No tracking
 • No ads
 
 PRIVATE BY DESIGN
 
-SafeSpot is built for personal information that should stay personal. Your saved items, notes, photos, and locations are stored locally on your device. The app does not require an account and does not upload your content to a server.
+SafeSpot is built for personal information that should stay personal. Your saved items, notes, photos, and locations remain available offline and synchronize through your private iCloud database. The app does not require a SafeSpot account or upload content to a developer server.
 
 PERFECT FOR
 
@@ -330,7 +330,7 @@ Your important things deserve a place you can trust.
 This is not always a direct App Store Connect field, but it is useful for screenshots, landing pages, press kits, or social posts.
 
 ```text
-SafeSpot is a private iPhone app that helps you remember where you stored important items, documents, keys, and valuables — with Face ID protection and no cloud account.
+SafeSpot is a private iPhone app that helps you remember where you stored important items, documents, keys, and valuables, with Face ID protection and private iCloud sync.
 ```
 
 ---
@@ -528,13 +528,13 @@ Hide sensitive names until you unlock them.
 **Title:**
 
 ```text
-Local by design
+Private by design
 ```
 
 **Subtitle:**
 
 ```text
-No account. No cloud. No tracking.
+No SafeSpot account. Private iCloud sync. No tracking.
 ```
 
 ---
@@ -554,7 +554,7 @@ No account. No cloud. No tracking.
 13–17s: Attach an optional photo.
 17–22s: Search for “keys” and open the saved item.
 22–26s: Show Face ID / privacy screen.
-26–30s: End screen: “No account. No cloud. No tracking.”
+26–30s: End screen: “No SafeSpot account. Private iCloud sync. No tracking.”
 ```
 
 ---
@@ -659,16 +659,16 @@ Use the following answers only if the shipped build matches all these conditions
 - No user account
 - No login
 - No backend
-- No cloud sync
+- Private CloudKit synchronization
 - No analytics SDK
 - No crash reporting SDK controlled by the developer
 - No advertising SDK
 - No tracking SDK
 - No third-party data sharing
-- No remote database
+- Private CloudKit database only
 - No developer-accessible user content
-- Photos, notes, and item data stay on the device
-- Notifications are local notifications only
+- Photos, notes, and item data remain available offline and sync through the user's private iCloud database
+- Reminder alerts are local; CloudKit uses silent remote notifications for synchronization
 - Face ID/passcode is handled locally by iOS
 
 ---
@@ -683,9 +683,9 @@ No, we do not collect data from this app.
 ```
 
 ### Internal explanation
-The app stores user-created content locally on the device and does not transmit it to the developer or third parties.
+The app stores user-created content locally and in the user's private CloudKit database. Apple documents that private-database records are not visible to the app developer through the Developer Portal.
 
-If you add analytics, remote crash reporting, ads, cloud sync, support chat, email capture, remote logging, or any third-party SDK that collects data, this answer must be changed.
+If you add analytics, remote crash reporting, ads, a developer backend, support chat, email capture, remote logging, or any third-party SDK that collects data, this answer must be changed.
 
 ---
 
@@ -940,7 +940,7 @@ To test the app:
 7. Enable Face ID protection in Settings if prompted.
 8. Optionally create a local reminder for the item.
 
-All saved item data is stored locally on the device. The app does not upload item names, notes, photos, locations, or reminders to a server. The app does not require an account, does not include advertising, and does not use third-party tracking.
+Saved item data remains available offline and synchronizes through the review device's private iCloud database when iCloud is available. The app does not require a SafeSpot account, does not include advertising, and does not use third-party tracking.
 
 If Face ID is unavailable on the review device, the app should fall back to the device passcode through iOS LocalAuthentication.
 ```
@@ -1048,19 +1048,19 @@ Replace placeholders before publishing.
 
 **Effective date:** [MONTH DAY, 2026]
 
-SafeSpot is designed to be private, local-first, and simple. This Privacy Policy explains how the SafeSpot iOS app handles information.
+SafeSpot is designed to be private, offline-first, and simple. This Privacy Policy explains how the SafeSpot iOS app handles information.
 
 ## 1. Overview
 
-SafeSpot helps you save where you keep important items, documents, keys, backups, and valuables. The app is built to store your information locally on your device.
+SafeSpot helps you save where you keep important items, documents, keys, backups, and valuables. The app stores an offline copy on your device and synchronizes through your private iCloud database.
 
-We do not require an account. We do not operate a cloud sync service. We do not sell your data. We do not use advertising or third-party tracking.
+We do not require a SafeSpot account or operate a developer backend for your saved content. We do not sell your data. We do not use advertising or third-party tracking.
 
 ## 2. Data We Collect
 
 SafeSpot does not collect personal data from the app.
 
-The information you enter in the app, including item names, locations, notes, categories, photos, and reminders, is stored locally on your device and is not sent to us.
+The information you enter in the app, including item names, locations, notes, categories, photos, and reminders, is stored locally and synchronized through Apple's CloudKit service in your private iCloud database. It is not sent to SafeSpot servers.
 
 ## 3. Local Storage
 
@@ -1074,13 +1074,13 @@ SafeSpot stores your saved items on your iPhone. This may include:
 - Reminder settings
 - App preferences
 
-This information remains on your device unless you choose to delete the app, delete the data, or transfer your device data using Apple’s own device backup or transfer features.
+This information remains available offline and may synchronize to your other devices signed in to the same iCloud account.
 
 ## 4. Photos and Camera
 
 SafeSpot may ask for access to the camera or photo library only when you choose to attach a photo to an item.
 
-Photos you add are used only inside the app and are stored locally on your device. They are not uploaded to SafeSpot servers.
+Photos you add are used only inside the app, stored locally, and synchronized as encrypted assets through your private iCloud database. They are not uploaded to SafeSpot servers.
 
 ## 5. Face ID and Device Passcode
 
@@ -1102,7 +1102,7 @@ The app does not track you across apps or websites owned by other companies.
 
 ## 9. Third-Party Services
 
-SafeSpot does not use a backend service to store your saved items. If this changes in the future, this Privacy Policy and the App Store privacy information will be updated before the feature is released.
+SafeSpot does not use a developer-operated backend service to store your saved items. Synchronization is provided by Apple's CloudKit service through the user's private iCloud database.
 
 ## 10. Children’s Privacy
 
@@ -1110,7 +1110,7 @@ SafeSpot is not specifically directed to children. We do not knowingly collect p
 
 ## 11. Data Deletion
 
-Because your SafeSpot data is stored locally on your device, you can delete it by deleting items inside the app or by deleting the app from your device.
+You can delete individual items inside the app, which synchronizes their deletion through iCloud. Deleting the app removes its local copy but may not remove data already synchronized to iCloud.
 
 ## 12. Changes to This Policy
 
@@ -1156,7 +1156,7 @@ For support, bug reports, or feature requests, contact:
 No. SafeSpot does not require an account.
 
 ### Is my data uploaded to the cloud?
-No. Your saved items, notes, and photos are stored locally on your device.
+SafeSpot synchronizes saved items, notes, reminder settings, and photos through your private iCloud database so they can appear on your devices. SafeSpot does not operate a developer content server.
 
 ### Does SafeSpot track me?
 No. SafeSpot does not use tracking or advertising SDKs.
@@ -1196,7 +1196,7 @@ https://[YOUR-DOMAIN]/safespot
 
 SafeSpot is a private iPhone app that helps you save and find the exact place where you keep important items, documents, keys, backups, and valuables.
 
-No account. No cloud. No tracking.
+No SafeSpot account. Private iCloud sync. No tracking.
 
 ## Why SafeSpot?
 
@@ -1357,7 +1357,7 @@ Utilities
 ## Promotional Text
 
 ```text
-Save where you keep important items, protect them with Face ID, and find them later in seconds. No account, no cloud, no tracking.
+Save where you keep important items, protect them with Face ID, and sync privately with iCloud. No SafeSpot account or tracking.
 ```
 
 ## Description
@@ -1380,15 +1380,15 @@ WHY SAFESPOT
 • Protect access with Face ID or device passcode
 • Use Private Mode for sensitive items
 • Set local reminders to check important items periodically
-• Keep everything on your iPhone
+• Keep everything available offline
 • No account required
-• No cloud sync
+• Private iCloud sync
 • No tracking
 • No ads
 
 PRIVATE BY DESIGN
 
-SafeSpot is built for personal information that should stay personal. Your saved items, notes, photos, and locations are stored locally on your device. The app does not require an account and does not upload your content to a server.
+SafeSpot is built for personal information that should stay personal. Your saved items, notes, photos, and locations remain available offline and synchronize through your private iCloud database. The app does not require a SafeSpot account or upload content to a developer server.
 
 PERFECT FOR
 
@@ -1463,7 +1463,7 @@ To test the app:
 7. Enable Face ID protection in Settings if prompted.
 8. Optionally create a local reminder for the item.
 
-All saved item data is stored locally on the device. The app does not upload item names, notes, photos, locations, or reminders to a server. The app does not require an account, does not include advertising, and does not use third-party tracking.
+Saved item data remains available offline and synchronizes through the review device's private iCloud database when an iCloud account is available. The app does not require a SafeSpot account, does not include advertising, and does not use third-party tracking.
 
 If Face ID is unavailable on the review device, the app should fall back to the device passcode through iOS LocalAuthentication.
 ```
@@ -1506,7 +1506,7 @@ Privacy Policy URL: Required and live before submission
 ## Recommended launch message
 
 ```text
-SafeSpot is now available for iPhone: a private way to remember where you keep important items. No account. No cloud. No tracking.
+SafeSpot is now available for iPhone: a private way to remember where you keep important items. No SafeSpot account. Private iCloud sync. No tracking.
 ```
 
 ---
@@ -1518,8 +1518,8 @@ Do not submit this metadata blindly if the implementation changes.
 Update this document before submission if the app adds any of the following:
 
 - Account creation
-- Cloud sync
-- iCloud-specific sync controlled by the app
+- Public or shared CloudKit databases
+- A developer-operated synchronization service
 - Backend APIs
 - Email login
 - Social login

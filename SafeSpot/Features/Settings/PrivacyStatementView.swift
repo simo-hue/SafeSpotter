@@ -13,8 +13,9 @@ struct PrivacyStatementView: View {
                     .font(.largeTitle.bold())
                     .foregroundStyle(AppColors.textPrimary)
 
-                privacyParagraph("This app is designed to work locally on your iPhone.")
-                privacyParagraph("Your saved items, notes, locations, and photos are stored in the app's local container on this device. The app does not require an account, does not use cloud sync, and does not send your saved content to a server.")
+                privacyParagraph("SafeSpot is designed to work offline and does not require a SafeSpot account.")
+                privacyParagraph("Your saved items, notes, locations, reminder settings, and photos are stored on this device and synchronized through your private iCloud database when iCloud is available. SafeSpot does not operate a backend server or receive your saved content.")
+                privacyParagraph("Text fields containing your saved-item details use CloudKit encrypted fields, and photos are stored as encrypted CloudKit assets.")
                 privacyParagraph("If you enable Face ID or Passcode protection, the app uses Apple's local authentication system to help protect access. The app never receives your biometric data.")
                 privacyParagraph("Local reminders are scheduled on this device using iOS notifications. Notification text is intentionally discreet and does not include item names.")
                 privacyParagraph("The app does not include advertising SDKs, tracking SDKs, or remote analytics in this version.")

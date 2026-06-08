@@ -20,7 +20,7 @@ struct PhotoPickerSection: View {
                     .accessibilityLabel("Attached item photo")
             }
 
-            Text("Optional, stored only on this iPhone.")
+            Text("Optional. Synced privately with iCloud and available offline.")
                 .font(.caption)
                 .foregroundStyle(AppColors.textSecondary)
 
