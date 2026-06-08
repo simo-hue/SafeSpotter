@@ -4,6 +4,7 @@ import UIKit
 
 struct PhotoPickerSection: View {
     @Bindable var viewModel: ItemEditorViewModel
+    @AppStorage(AppSettingsKey.isCloudSyncEnabled) private var isCloudSyncEnabled = true
     @State private var selectedPickerItem: PhotosPickerItem?
 
     var body: some View {
@@ -20,7 +21,7 @@ struct PhotoPickerSection: View {
                     .accessibilityLabel("Attached item photo")
             }
 
-            Text("Optional. Synced privately with iCloud and available offline.")
+            Text(photoStorageMessage)
                 .font(.caption)
                 .foregroundStyle(AppColors.textSecondary)
 
@@ -55,6 +56,14 @@ struct PhotoPickerSection: View {
 
                 viewModel.selectPhoto(image)
             }
+        }
+    }
+
+    private var photoStorageMessage: String {
+        if isCloudSyncEnabled {
+            "Optional. Synced privately with iCloud and available offline."
+        } else {
+            "Optional. Stored only in SafeSpot's local store on this device."
         }
     }
 }

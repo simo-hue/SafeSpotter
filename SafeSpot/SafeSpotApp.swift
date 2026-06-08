@@ -3,11 +3,13 @@ import SwiftUI
 
 @main
 struct SafeSpotApp: App {
-    private let modelContainer: ModelContainer
+    @State private var persistenceManager: PersistenceManager
 
     init() {
         do {
-            modelContainer = try PersistenceController.makeModelContainer()
+            _persistenceManager = State(
+                initialValue: try PersistenceManager()
+            )
         } catch {
             fatalError("Could not initialize the SafeSpot data store: \(error)")
         }
@@ -16,7 +18,9 @@ struct SafeSpotApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .id(persistenceManager.containerID)
+                .environment(persistenceManager)
         }
-        .modelContainer(modelContainer)
+        .modelContainer(persistenceManager.modelContainer)
     }
 }

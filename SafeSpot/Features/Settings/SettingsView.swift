@@ -4,11 +4,14 @@ import UIKit
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(PersistenceManager.self) private var persistenceManager
     @AppStorage(AppSettingsKey.isAppLockEnabled) private var isAppLockEnabled = false
     @AppStorage(AppSettingsKey.isDiscreetModeEnabled) private var isDiscreetModeEnabled = false
     @AppStorage(AppSettingsKey.defaultReminderFrequency) private var defaultReminderRawValue = ReminderFrequency.none.rawValue
     @State private var isShowingProtectionError = false
     @State private var isUpdatingProtection = false
+    @State private var isShowingDisableCloudSyncConfirmation = false
+    @State private var cloudSyncErrorMessage: String?
     @State private var cloudSyncMonitor = CloudSyncMonitor()
 
     var body: some View {
@@ -37,6 +40,26 @@ struct SettingsView: View {
             } message: {
                 Text("Set up a device passcode, Face ID, or Touch ID in iOS Settings, then try again.")
             }
+            .alert("Could Not Change Storage", isPresented: Binding(
+                get: { cloudSyncErrorMessage != nil },
+                set: { if !$0 { cloudSyncErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(cloudSyncErrorMessage ?? "Please try again.")
+            }
+            .confirmationDialog(
+                "Turn Off iCloud Sync?",
+                isPresented: $isShowingDisableCloudSyncConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Keep Data on This Device") {
+                    changeStorageMode(to: .local)
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("SafeSpot will copy your current items to this device and stop syncing future changes. Existing copies already stored in iCloud are retained in case you turn sync back on.")
+            }
         }
         .tint(AppColors.secondary)
         .task {
@@ -46,6 +69,33 @@ struct SettingsView: View {
 
     private var cloudSyncSection: some View {
         SectionCard(title: "iCloud Sync", systemImage: "icloud.fill") {
+            SettingsToggleRow(
+                title: "Sync with iCloud",
+                subtitle: cloudSyncToggleSubtitle,
+                isOn: Binding(
+                    get: { persistenceManager.storageMode == .cloud },
+                    set: { requestCloudSyncChange(isEnabled: $0) }
+                )
+            )
+            .disabled(
+                persistenceManager.isSwitchingStorage
+                    || cloudSyncMonitor.isRefreshing
+            )
+
+            if persistenceManager.isSwitchingStorage {
+                HStack(spacing: AppSpacing.sm) {
+                    ProgressView()
+                        .controlSize(.small)
+
+                    Text("Moving your saved items...")
+                        .font(.caption)
+                        .foregroundStyle(AppColors.textSecondary)
+                }
+            }
+
+            Divider()
+                .overlay(Color.white.opacity(0.1))
+
             HStack(alignment: .top, spacing: AppSpacing.sm) {
                 Image(systemName: cloudSyncStatusSymbol)
                     .foregroundStyle(cloudSyncStatusColor)
@@ -63,17 +113,19 @@ struct SettingsView: View {
 
                 Spacer(minLength: 0)
 
-                if cloudSyncMonitor.isRefreshing {
+                if cloudSyncMonitor.isRefreshing
+                    && persistenceManager.storageMode == .cloud {
                     ProgressView()
                         .controlSize(.small)
                 }
             }
 
-            Text("Items, notes, locations, reminder settings, and photos sync automatically through your private iCloud database and remain available offline.")
+            Text(cloudSyncStorageMessage)
                 .font(.caption)
                 .foregroundStyle(AppColors.textSecondary)
 
-            if cloudSyncMonitor.availability != .available
+            if persistenceManager.storageMode == .cloud
+                && cloudSyncMonitor.availability != .available
                 && cloudSyncMonitor.availability != .checking {
                 Button("Open Settings") {
                     guard let settingsURL = URL(
@@ -145,7 +197,7 @@ struct SettingsView: View {
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(AppColors.textPrimary)
 
-                        Text("Private iCloud sync. No tracking SDKs.")
+                        Text("Optional iCloud sync. No tracking SDKs.")
                             .font(.caption)
                             .foregroundStyle(AppColors.textSecondary)
                     }
@@ -179,7 +231,11 @@ struct SettingsView: View {
     }
 
     private var cloudSyncStatusTitle: String {
-        switch cloudSyncMonitor.availability {
+        guard persistenceManager.storageMode == .cloud else {
+            return "Stored on This Device"
+        }
+
+        return switch cloudSyncMonitor.availability {
         case .checking:
             "Checking iCloud"
         case .available:
@@ -196,7 +252,11 @@ struct SettingsView: View {
     }
 
     private var cloudSyncStatusMessage: String {
-        switch cloudSyncMonitor.availability {
+        guard persistenceManager.storageMode == .cloud else {
+            return "iCloud sync is off. Changes made in SafeSpot stay in the local store on this device."
+        }
+
+        return switch cloudSyncMonitor.availability {
         case .checking:
             "Checking whether private iCloud sync is available on this device."
         case .available:
@@ -213,7 +273,11 @@ struct SettingsView: View {
     }
 
     private var cloudSyncStatusSymbol: String {
-        switch cloudSyncMonitor.availability {
+        guard persistenceManager.storageMode == .cloud else {
+            return "internaldrive.fill"
+        }
+
+        return switch cloudSyncMonitor.availability {
         case .available:
             "checkmark.circle.fill"
         case .checking:
@@ -224,13 +288,56 @@ struct SettingsView: View {
     }
 
     private var cloudSyncStatusColor: Color {
-        switch cloudSyncMonitor.availability {
+        guard persistenceManager.storageMode == .cloud else {
+            return AppColors.secondary
+        }
+
+        return switch cloudSyncMonitor.availability {
         case .available:
             AppColors.secondary
         case .checking:
             AppColors.textSecondary
         case .noAccount, .restricted, .temporarilyUnavailable, .unavailable:
             .orange
+        }
+    }
+
+    private var cloudSyncToggleSubtitle: String {
+        if persistenceManager.storageMode == .cloud {
+            "Keep items available offline and synchronize them across your devices."
+        } else {
+            "Keep items only in SafeSpot's local store on this device."
+        }
+    }
+
+    private var cloudSyncStorageMessage: String {
+        if persistenceManager.storageMode == .cloud {
+            "Items, notes, locations, reminder settings, and photos synchronize through your private iCloud database."
+        } else {
+            "Existing copies previously synchronized to iCloud are retained and can be merged if you enable sync again."
+        }
+    }
+
+    private func requestCloudSyncChange(isEnabled: Bool) {
+        if isEnabled {
+            guard cloudSyncMonitor.availability == .available else {
+                cloudSyncErrorMessage = "Sign in to iCloud and make sure iCloud is available on this device before enabling sync."
+                return
+            }
+
+            changeStorageMode(to: .cloud)
+        } else {
+            isShowingDisableCloudSyncConfirmation = true
+        }
+    }
+
+    private func changeStorageMode(to mode: PersistenceStorageMode) {
+        Task {
+            do {
+                try await persistenceManager.switchStorage(to: mode)
+            } catch {
+                cloudSyncErrorMessage = "SafeSpot could not move your saved items. Your current storage mode and data were not changed."
+            }
         }
     }
 

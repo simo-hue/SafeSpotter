@@ -119,7 +119,7 @@ private struct OnboardingPage {
         ),
         OnboardingPage(
             title: "Private by design",
-            body: "No SafeSpot account. Your encrypted data stays available offline and syncs privately with iCloud.",
+            body: "No SafeSpot account. Keep your data only on this device or enable private iCloud sync.",
             symbolName: "lock.shield.fill"
         ),
         OnboardingPage(

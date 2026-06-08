@@ -7,6 +7,7 @@ struct RootView: View {
     @AppStorage(AppSettingsKey.isAppLockEnabled) private var isAppLockEnabled = false
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(PersistenceManager.self) private var persistenceManager
     @Query private var items: [StoredItem]
     @State private var isAuthenticated = false
     private let logger = Logger(subsystem: "com.safespot", category: "Maintenance")
@@ -22,6 +23,25 @@ struct RootView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .alert(
+            storageChangeConfirmationTitle,
+            isPresented: Binding(
+                get: {
+                    persistenceManager.completedStorageChange != nil
+                },
+                set: { isPresented in
+                    if !isPresented {
+                        persistenceManager.dismissStorageChangeConfirmation()
+                    }
+                }
+            )
+        ) {
+            Button("OK", role: .cancel) {
+                persistenceManager.dismissStorageChangeConfirmation()
+            }
+        } message: {
+            Text(storageChangeConfirmationMessage)
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if isAppLockEnabled && (newPhase == .background || newPhase == .inactive) {
                 isAuthenticated = false
@@ -68,6 +88,28 @@ struct RootView: View {
                 )
             }
             .sorted { $0.id.uuidString < $1.id.uuidString }
+    }
+
+    private var storageChangeConfirmationTitle: String {
+        switch persistenceManager.completedStorageChange {
+        case .cloud:
+            "iCloud Sync Enabled"
+        case .local:
+            "iCloud Sync Disabled"
+        case nil:
+            ""
+        }
+    }
+
+    private var storageChangeConfirmationMessage: String {
+        switch persistenceManager.completedStorageChange {
+        case .cloud:
+            "Your saved items are now using private iCloud sync and can stay updated across your devices."
+        case .local:
+            "Your saved items are now stored only on this device. Future changes will not sync with iCloud."
+        case nil:
+            ""
+        }
     }
 }
 

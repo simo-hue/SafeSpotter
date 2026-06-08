@@ -4,6 +4,7 @@ import SwiftUI
 struct ItemDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @AppStorage(AppSettingsKey.isCloudSyncEnabled) private var isCloudSyncEnabled = true
     let item: StoredItem
     @State private var isShowingEditItem = false
     @State private var isShowingDeleteConfirmation = false
@@ -51,7 +52,7 @@ struct ItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This removes the item and its photo from SafeSpot on your devices through iCloud. This action cannot be undone.")
+            Text(deleteConfirmationMessage)
         }
         .alert("Could Not Update Item", isPresented: Binding(
             get: { errorMessage != nil },
@@ -171,6 +172,14 @@ struct ItemDetailView: View {
             }
         }
         .padding(.top, AppSpacing.sm)
+    }
+
+    private var deleteConfirmationMessage: String {
+        if isCloudSyncEnabled {
+            "This removes the item and its photo from SafeSpot on devices synchronized through iCloud. This action cannot be undone."
+        } else {
+            "This removes the item and its photo from SafeSpot on this device. This action cannot be undone."
+        }
     }
 
     private func metadataRow(title: String, value: String) -> some View {

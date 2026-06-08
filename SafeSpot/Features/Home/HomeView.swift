@@ -94,6 +94,7 @@ struct HomeView: View {
                 message: "Try a different search or category.",
                 symbolName: "magnifyingglass"
             )
+            .frame(maxWidth: .infinity)
         } else {
             ItemListView(
                 items: filteredItems,

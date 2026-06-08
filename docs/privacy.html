@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy - SafeSpot</title>
-  <meta name="description" content="Privacy Policy for SafeSpot. No SafeSpot account, private iCloud sync, and no tracking." />
+  <meta name="description" content="Privacy Policy for SafeSpot. Local-only storage, optional private iCloud sync, and no tracking." />
   <style>
     .legal-content {
       max-width: 800px;
@@ -71,13 +71,13 @@
 
       <div class="glass-panel feature-card card-hover-effect" style="margin-bottom: var(--spacing-xl);">
         <h3 style="color: var(--secondary-color); margin-bottom: var(--spacing-sm);">TL;DR: We have zero access to your data.</h3>
-        <p style="margin: 0;">SafeSpot requires no app-specific account and uses no developer backend for your content. Your data remains available offline and synchronizes through your private iCloud database. We do not collect telemetry, analytics, or crash reports.</p>
+        <p style="margin: 0;">SafeSpot requires no app-specific account and uses no developer backend for your content. You can keep data only on your device or enable synchronization through your private iCloud database. We do not collect telemetry, analytics, or crash reports.</p>
       </div>
 
       <div class="legal-section">
         <h2>1. Data Storage</h2>
-        <p>Data you enter into SafeSpot, including item names, locations, private notes, reminder settings, and photos, is stored locally for offline use and synchronized through Apple's CloudKit service in your private iCloud database.</p>
-        <p>SafeSpot does not operate a backend server and does not receive your saved content. Deleting the app removes its local copy; data synchronized with iCloud may remain available to SafeSpot on your other devices or after reinstalling.</p>
+        <p>Data you enter into SafeSpot, including item names, locations, private notes, reminder settings, and photos, is stored locally for offline use. If you enable iCloud sync, that data is also synchronized through Apple's CloudKit service in your private iCloud database.</p>
+        <p>SafeSpot does not operate a backend server and does not receive your saved content. Turning off iCloud sync moves the active SafeSpot data to a local-only store. Copies previously synchronized with iCloud are retained so they can be merged if you enable sync again.</p>
       </div>
 
       <div class="legal-section">
@@ -98,12 +98,12 @@
 
       <div class="legal-section">
         <h2>4. Photos and Camera Access</h2>
-        <p>If you choose to attach photos to your items, SafeSpot uses the native iOS <code>PhotosUI</code> picker. We only have access to the specific photos you select. Photos are stored locally and synchronized as encrypted CloudKit assets in your private iCloud database.</p>
+        <p>If you choose to attach photos to your items, SafeSpot uses the native iOS <code>PhotosUI</code> picker. We only have access to the specific photos you select. Photos remain local when iCloud sync is off and are synchronized as encrypted CloudKit assets when iCloud sync is enabled.</p>
       </div>
 
       <div class="legal-section">
         <h2>5. Notifications</h2>
-        <p>SafeSpot uses local notifications to remind you to check your items. Reminder alerts are scheduled and triggered locally. CloudKit uses silent Apple Push Notification service messages to notify the app about synchronization changes; these are not marketing notifications and do not contain your reminder alert text.</p>
+        <p>SafeSpot uses local notifications to remind you to check your items. Reminder alerts are scheduled and triggered locally. When iCloud sync is enabled, CloudKit uses silent Apple Push Notification service messages to notify the app about synchronization changes; these are not marketing notifications and do not contain your reminder alert text.</p>
       </div>
 
       <div class="legal-section">
