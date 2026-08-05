@@ -86,3 +86,7 @@
     - **SEO/social**: per-page title, description, canonical, Open Graph and Twitter card, `SoftwareApplication` JSON-LD with the real App Store URL, `robots.txt`, `sitemap.xml`, print styles for the legal pages.
     - **Verification**: production build served from `/docs` under the `/SafeSpotter/` base and audited headlessly — every internal link and anchor returns 200, no console errors, no failed requests, no horizontal overflow between 320 px and 1920 px on all five pages, one `<h1>` per page, no heading-level jumps, every image has an `alt`, every button has an accessible name. Reviewed visually in dark and light at desktop and at 390 px.
     - **Removed**: `website/dist/` (stale artefacts from before the build moved to `/docs`) and the 1.4 MB `website/public/logo.png`; `.gitignore` now covers `website/dist/` and `website/node_modules/`.
+
+- [2026-08-05 22:40 CEST]: README App Store Links
+  - *Details*: The README now leads with a clickable "Download on the App Store" badge and a link row (App Store · Website · Privacy · Support), adds an **Install** section with the direct store link, support address and device requirements, and closes with the store link. A note records that the app is published as "SafeSpotter".
+  - *Tech Notes*: Badge stored at `.github/assets/app-store-badge.png` (Apple's official artwork, rendered from the SVG used on the site at 3× so it stays crisp; kept outside `docs/`, which the Vite build empties). Store URL: `https://apps.apple.com/us/app/safespotter/id6775203521`. No build or dependency changes.

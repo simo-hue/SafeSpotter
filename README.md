@@ -1,7 +1,13 @@
 # SafeSpot
 > **Find your important things fast. No account. Optional private iCloud sync.**
 
+[<img src=".github/assets/app-store-badge.png" alt="Download SafeSpotter on the App Store" height="54">](https://apps.apple.com/us/app/safespotter/id6775203521)
+
+**[App Store](https://apps.apple.com/us/app/safespotter/id6775203521)** · **[Website](https://simo-hue.github.io/SafeSpotter/)** · **[Privacy](https://simo-hue.github.io/SafeSpotter/privacy.html)** · **[Support](https://simo-hue.github.io/SafeSpotter/support.html)** · Free · iPhone · iOS 17.0+
+
 SafeSpot is a native, local-first iOS "memory vault" designed to help you remember where you placed important physical items, documents, and small valuables. From passports to spare keys and emergency cash, SafeSpot keeps track of your most important belongings with maximum privacy.
+
+> Published on the App Store as **SafeSpotter**.
 
 ## Features
 
@@ -40,12 +46,20 @@ SafeSpot was designed with absolute privacy in mind:
 - `website/`: Source of the public site — landing page, privacy policy, terms and support.
 - `docs/`: Built site published by GitHub Pages at https://simo-hue.github.io/SafeSpotter/ (generated; do not edit by hand).
 
+## Install
+
+The app is free on the App Store, with no in-app purchases and no ads.
+
+**[→ Get SafeSpotter on the App Store](https://apps.apple.com/us/app/safespotter/id6775203521)**
+
+Requires an iPhone on iOS 17.0 or later (it also runs on Apple Silicon Macs and Apple Vision Pro). Questions and bug reports: [support page](https://simo-hue.github.io/SafeSpotter/support.html) or [mattioli.simone.10@gmail.com](mailto:mattioli.simone.10@gmail.com).
+
 ## Requirements
 
 - iOS 17.0+
 - Xcode 15.0+
 
-## Getting Started
+## Building from source
 
 1. Clone or download the repository.
 2. Open `SafeSpot.xcodeproj` in Xcode.
@@ -65,4 +79,4 @@ npm --prefix website run build # writes the published site into /docs
 Pushing the regenerated `docs/` folder to `main` publishes it.
 
 ---
-*SafeSpot - Remember where you keep what matters.*
+*SafeSpot — remember where you keep what matters. [Download on the App Store](https://apps.apple.com/us/app/safespotter/id6775203521).*
