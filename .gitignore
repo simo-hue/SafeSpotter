@@ -3,3 +3,7 @@ DerivedData*/
 build/
 *.xcuserstate
 xcuserdata/
+
+# Vite build artefacts (the published site is built into /docs)
+website/dist/
+website/node_modules/

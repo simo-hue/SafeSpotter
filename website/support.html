@@ -1,133 +1,278 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support & Contact - SafeSpot</title>
-  <meta name="description" content="Get help with the SafeSpot iOS App. Frequently asked questions and contact information." />
-  <link rel="stylesheet" href="/src/style.css" />
-  <style>
-    .support-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding-top: 120px;
-    }
-    
-    .support-content h1 {
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    .subtitle {
-      color: var(--text-secondary);
-      margin-bottom: var(--spacing-xxl);
-      font-size: 1.25rem;
-    }
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Support — SafeSpotter</title>
+    <meta
+      name="description"
+      content="Get help with SafeSpotter: contact the developer, report a bug, request a feature, and read the answers to common questions."
+    />
+    <link rel="canonical" href="https://simo-hue.github.io/SafeSpotter/support.html" />
 
-    .contact-card {
-      padding: var(--spacing-xl);
-      margin-bottom: var(--spacing-xxl);
-      text-align: center;
-    }
+    <meta name="theme-color" content="#070b18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fc" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/SafeSpotter/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/SafeSpotter/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/SafeSpotter/apple-touch-icon.png" />
 
-    .contact-card h2 {
-      margin-bottom: var(--spacing-md);
-      font-size: 1.5rem;
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SafeSpotter" />
+    <meta property="og:title" content="Support — SafeSpotter" />
+    <meta property="og:description" content="Contact the developer, report a bug, request a feature." />
+    <meta property="og:url" content="https://simo-hue.github.io/SafeSpotter/support.html" />
+    <meta property="og:image" content="https://simo-hue.github.io/SafeSpotter/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    .faq-section h2 {
-      margin-bottom: var(--spacing-lg);
-      font-size: 2rem;
-    }
+    <script>
+      (function () {
+        // Reveal-on-scroll styles only apply when this runs, so the page is
+        // fully readable with JavaScript disabled.
+        document.documentElement.classList.add('js');
+        try {
+          var saved = localStorage.getItem('safespotter-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+        } catch (error) {
+          /* keep the dark default */
+        }
+      })();
+    </script>
 
-    .faq-item {
-      margin-bottom: var(--spacing-lg);
-      padding-bottom: var(--spacing-lg);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .faq-item:last-child {
-      border-bottom: none;
-    }
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
 
-    .faq-question {
-      font-weight: 600;
-      font-size: 1.25rem;
-      margin-bottom: var(--spacing-sm);
-      color: var(--text-primary);
-    }
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    .faq-answer {
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-  </style>
-</head>
-<body>
+    <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 13.4A8.2 8.2 0 0 1 10.6 4a8.2 8.2 0 1 0 9.4 9.4Z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m5 12.5 4.5 4.5L19 7.5" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+        <path d="M6 12h12" />
+      </symbol>
+    </svg>
 
-  <nav>
-    <div class="container nav-content">
-      <a href="/SafeSpotter/" class="logo">
-        <img src="/public/logo.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
-        SafeSpot
-      </a>
-      <div class="nav-links">
-        <a href="/SafeSpotter/index.html#features">Features</a>
-        <a href="/SafeSpotter/privacy.html">Privacy</a>
-        <a href="/SafeSpotter/support.html" style="color: var(--text-primary);">Support</a>
-      </div>
-    </div>
-  </nav>
+    <header class="site-head">
+      <div class="shell shell--wide">
+        <div class="site-head__bar">
+          <a class="wordmark" href="/SafeSpotter/">
+            <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+            SafeSpotter
+          </a>
 
-  <main>
-    <div class="container support-content">
-      
-      <div class="reveal">
-        <h1>Support & Contact</h1>
-        <p class="subtitle">We're here to help you keep track of your important items.</p>
-      </div>
+          <nav class="site-nav" aria-label="Primary">
+            <a href="/SafeSpotter/#how">How it works</a>
+            <a href="/SafeSpotter/privacy.html">Privacy</a>
+            <a href="/SafeSpotter/#faq">FAQ</a>
+            <a href="/SafeSpotter/support.html" aria-current="page">Support</a>
+          </nav>
 
-      <div class="glass-panel contact-card reveal card-hover-effect" style="transition-delay: 0.1s;">
-        <h2>Need direct assistance?</h2>
-        <p style="margin-bottom: var(--spacing-lg);">SafeSpot uses your private iCloud database, which is not visible to us through the Developer Portal. We cannot inspect your content or reset iCloud credentials. If you've found a bug, have a feature request, or need help understanding the app, please reach out!</p>
-        <a href="mailto:support@safespot-app.com" class="btn btn-primary">Email Support</a>
-      </div>
-
-      <div id="faq" class="faq-section reveal" style="transition-delay: 0.2s;">
-        <h2>Frequently Asked Questions</h2>
-
-        <div class="faq-item">
-          <div class="faq-question">How do I back up my data?</div>
-          <div class="faq-answer">SafeSpot stores an offline copy on each device and synchronizes through your private iCloud database when iCloud is available. SafeSpot does not operate a developer backend for your content.</div>
+          <div class="head-actions">
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+              <svg class="icon-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+              <svg class="icon-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+            </button>
+            <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+              <svg aria-hidden="true"><use href="#i-menu" /></svg>
+            </button>
+            <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+          </div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-question">What happens if I lose my phone?</div>
-          <div class="faq-answer">Since we don't have servers, we cannot recover your data. If you have an iCloud or local computer backup of your entire iPhone, restoring your new device from that backup will restore your SafeSpot data.</div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">Can you see what I store in SafeSpot?</div>
-          <div class="faq-answer">Absolutely not. We have no analytics, advertising, or third-party tracking SDKs. Your saved content is stored locally and in your private iCloud database for synchronization.</div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">What is Discreet Mode?</div>
-          <div class="faq-answer">Discreet Mode is a privacy feature you can enable in settings. It masks the names and details of items you've marked as "Private" or "Highly Private" in your list and search results until you specifically authenticate via Face ID to view them.</div>
-        </div>
-
+        <nav class="menu-panel" id="menu-panel" data-menu-panel hidden aria-label="Menu">
+          <a href="/SafeSpotter/#how">How it works</a>
+          <a href="/SafeSpotter/privacy.html">Privacy policy</a>
+          <a href="/SafeSpotter/terms.html">Terms of use</a>
+          <a href="/SafeSpotter/support.html">Support</a>
+          <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+        </nav>
       </div>
+    </header>
 
-    </div>
-  </main>
+    <main id="main">
+      <div class="shell">
+        <div class="doc-head">
+          <h1>Support</h1>
+          <p>
+            SafeSpotter is made by one person. Write in plain language, include a little detail, and
+            you'll get a real reply.
+          </p>
+          <p class="doc-meta">App version 1.1 · iOS 17.0 or later</p>
+        </div>
 
-  <footer>
-    <div class="container">
-      <div class="footer-bottom" style="border: none;">
-        &copy; 2026 SafeSpot App. All rights reserved.
+        <section class="section" style="padding-block: var(--s-7)">
+          <div class="contact">
+            <div>
+              <h2>Email the developer</h2>
+              <p>
+                Bugs, questions, feature ideas, or telling me the app helped you find something you'd
+                given up on — all welcome. Replies usually take a couple of days.
+              </p>
+              <a class="btn btn--primary" href="mailto:mattioli.simone.10@gmail.com?subject=SafeSpotter%20support">
+                mattioli.simone.10@gmail.com
+              </a>
+            </div>
+
+            <div>
+              <h3 style="font-size: var(--step-0); margin-bottom: var(--s-3)">Helpful to include</h3>
+              <ul class="checklist">
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Your iPhone model and iOS version</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>The SafeSpotter version (Settings → About)</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>What you did, what happened, what you expected</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>A screenshot, if it's something you can see</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Whether iCloud sync is on or off</span></li>
+              </ul>
+              <p style="margin-top: var(--s-4); font-size: var(--step--2); color: var(--text-3)">
+                Never send the contents of private items. They aren't needed to fix anything.
+              </p>
+            </div>
+          </div>
+
+          <div class="ledger">
+            <div class="ledger__col">
+              <h3>What I can help with</h3>
+              <ul>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>How a feature works, or why it behaves that way</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Bugs, crashes and layout problems</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Feature requests and rough edges worth filing down</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Questions about privacy, storage and sync</span></li>
+              </ul>
+            </div>
+
+            <div class="ledger__col ledger__col--muted">
+              <h3>What I can't do</h3>
+              <ul>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>See, read or restore your items — I hold no copy of them</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>Recover data from a device that was lost without a backup</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>Reset an Apple Account or fix iCloud sign-in problems</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>Refund an App Store purchase — the app is free anyway</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="faq" style="padding-top: 0">
+          <div class="section__head">
+            <p class="eyebrow">Before you write</p>
+            <h2 style="font-size: var(--step-3)">Common questions</h2>
+          </div>
+
+          <div class="faq">
+            <details>
+              <summary>How do I back up my items?</summary>
+              <p>
+                Turn on <strong>Sync with iCloud</strong> in Settings and your items live in your private
+                iCloud database as well as on the device. A full iPhone backup — to iCloud or a computer
+                — also includes SafeSpotter's local data.
+              </p>
+            </details>
+            <details>
+              <summary>I lost my iPhone. Can I get my items back?</summary>
+              <p>
+                If sync was on, sign in to iCloud on the new device, open SafeSpotter and they will
+                reappear. If sync was off, restore the new device from an iCloud or computer backup of the
+                old one. Without either, the items are gone — there is no server-side copy to recover.
+              </p>
+            </details>
+            <details>
+              <summary>Face ID isn't asking me to unlock.</summary>
+              <p>
+                Check that <strong>Require Face ID or Passcode</strong> is on in Settings, and that
+                SafeSpotter is allowed to use Face ID in iOS Settings → Face ID &amp; Passcode → Other
+                Apps. The lock screen waits for you to tap <strong>Unlock</strong> — it does not scan
+                automatically.
+              </p>
+            </details>
+            <details>
+              <summary>My items aren't appearing on my other device.</summary>
+              <p>
+                Both devices need to be signed in to the same Apple Account with iCloud Drive enabled, and
+                sync switched on inside SafeSpotter. The first sync needs a network connection and can
+                take a few minutes. If iCloud storage is full, Apple pauses syncing until space is freed.
+              </p>
+            </details>
+            <details>
+              <summary>Can I use SafeSpotter without iCloud?</summary>
+              <p>
+                Yes. Leave sync off and everything stays in a local-only store on that iPhone. Nothing
+                about the app requires a network connection.
+              </p>
+            </details>
+            <details>
+              <summary>How do I delete everything?</summary>
+              <p>
+                Delete items inside the app, then delete the app to remove its local store. If you used
+                iCloud sync, also remove SafeSpotter's data from your Apple Account settings to clear the
+                cloud copy.
+              </p>
+            </details>
+          </div>
+
+          <p style="margin-top: var(--s-6); color: var(--text-2)">
+            Still stuck? Email
+            <a href="mailto:mattioli.simone.10@gmail.com?subject=SafeSpotter%20support">mattioli.simone.10@gmail.com</a>.
+            You can also read the <a href="/SafeSpotter/privacy.html">privacy policy</a> and the
+            <a href="/SafeSpotter/terms.html">terms of use</a>.
+          </p>
+        </section>
       </div>
-    </div>
-  </footer>
+    </main>
 
-  <script type="module" src="/src/main.js"></script>
-</body>
+    <footer class="site-foot">
+      <div class="shell shell--wide">
+        <div class="site-foot__grid">
+          <div>
+            <a class="wordmark" href="/SafeSpotter/">
+              <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+              SafeSpotter
+            </a>
+            <p class="site-foot__blurb">Remember where you put what matters. An iPhone app by Simone Mattioli.</p>
+          </div>
+          <div>
+            <h2>App</h2>
+            <ul>
+              <li><a href="/SafeSpotter/#how">How it works</a></li>
+              <li><a href="/SafeSpotter/#privacy">Privacy by design</a></li>
+              <li><a href="/SafeSpotter/#faq">FAQ</a></li>
+              <li><a href="https://apps.apple.com/us/app/safespotter/id6775203521">App Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/SafeSpotter/privacy.html">Privacy policy</a></li>
+              <li><a href="/SafeSpotter/terms.html">Terms of use</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Help</h2>
+            <ul>
+              <li><a href="/SafeSpotter/support.html">Support</a></li>
+              <li><a href="mailto:mattioli.simone.10@gmail.com">Email the developer</a></li>
+              <li><a href="https://github.com/simo-hue/SafeSpotter">Source on GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-foot__bottom">
+          <span>© <span data-year>2026</span> Simone Mattioli</span>
+          <span>No cookies. No analytics. No third-party requests.</span>
+          <span>iPhone, Face ID, iCloud and App Store are trademarks of Apple Inc.</span>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

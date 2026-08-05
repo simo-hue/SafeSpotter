@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Page not found — SafeSpotter</title>
+    <meta name="description" content="That page isn't where you left it." />
+    <meta name="robots" content="noindex" />
+
+    <meta name="theme-color" content="#070b18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fc" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/SafeSpotter/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/SafeSpotter/apple-touch-icon.png" />
+
+    <script>
+      (function () {
+        // Reveal-on-scroll styles only apply when this runs, so the page is
+        // fully readable with JavaScript disabled.
+        document.documentElement.classList.add('js');
+        try {
+          var saved = localStorage.getItem('safespotter-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+        } catch (error) {
+          /* keep the dark default */
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+
+  <body>
+    <main id="main">
+      <div class="shell">
+        <section class="section hero" style="padding-block: var(--s-10)">
+          <div class="hero__inner">
+            <p class="eyebrow">Error 404</p>
+            <h1 style="font-size: var(--step-3); margin-bottom: var(--s-5)">
+              This page isn't where you left it.
+            </h1>
+            <p class="hero__lede">
+              The address doesn't match anything on this site. The app is better at this than the website
+              is.
+            </p>
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="/SafeSpotter/">Back to the home page</a>
+              <a class="btn btn--ghost" href="/SafeSpotter/support.html">Support</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

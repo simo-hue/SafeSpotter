@@ -37,7 +37,8 @@ SafeSpot was designed with absolute privacy in mind:
 - `SafeSpot/Models/`: SwiftData models representing `StoredItem`, categories, and sensitivity levels.
 - `SafeSpot/Services/`: Core business logic managers (`AuthenticationService`, `PhotoStorageService`, `ReminderScheduler`, etc.).
 - `SafeSpot/Design/`: Application colors, spacing, and reusable SwiftUI components.
-- `website/`: Source code for the SafeSpot product landing page and legal documentation.
+- `website/`: Source of the public site — landing page, privacy policy, terms and support.
+- `docs/`: Built site published by GitHub Pages at https://simo-hue.github.io/SafeSpotter/ (generated; do not edit by hand).
 
 ## Requirements
 
@@ -50,6 +51,18 @@ SafeSpot was designed with absolute privacy in mind:
 2. Open `SafeSpot.xcodeproj` in Xcode.
 3. Select your target device or simulator.
 4. Build and run (⌘R).
+
+## Website
+
+The site is a static Vite multi-page build with no framework and no third-party requests — fonts, icons and screenshots are all served from the site itself.
+
+```bash
+npm --prefix website install   # once
+npm --prefix website run dev   # local preview at /SafeSpotter/
+npm --prefix website run build # writes the published site into /docs
+```
+
+Pushing the regenerated `docs/` folder to `main` publishes it.
 
 ---
 *SafeSpot - Remember where you keep what matters.*

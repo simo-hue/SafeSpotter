@@ -1,130 +1,298 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy - SafeSpot</title>
-  <meta name="description" content="Privacy Policy for SafeSpot. Local-only storage, optional private iCloud sync, and no tracking." />
-  <link rel="stylesheet" href="/src/style.css" />
-  <style>
-    .legal-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding-top: 120px;
-    }
-    
-    .legal-content h1 {
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    .last-updated {
-      color: var(--text-tertiary);
-      margin-bottom: var(--spacing-xl);
-      font-size: 0.9rem;
-    }
-    
-    .legal-section {
-      margin-bottom: var(--spacing-xl);
-    }
-    
-    .legal-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: var(--spacing-md);
-      color: var(--primary-color);
-    }
-    
-    .legal-section p, .legal-section ul {
-      margin-bottom: var(--spacing-md);
-    }
-    
-    .legal-section ul {
-      padding-left: var(--spacing-lg);
-      color: var(--text-secondary);
-    }
-    
-    .legal-section li {
-      margin-bottom: var(--spacing-xs);
-    }
-  </style>
-</head>
-<body>
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Privacy policy — SafeSpotter</title>
+    <meta
+      name="description"
+      content="SafeSpotter collects nothing. Your items stay on your iPhone, or in your own private iCloud database if you switch sync on."
+    />
+    <link rel="canonical" href="https://simo-hue.github.io/SafeSpotter/privacy.html" />
 
-  <nav>
-    <div class="container nav-content">
-      <a href="/SafeSpotter/" class="logo">
-        <img src="/public/logo.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
-        SafeSpot
-      </a>
-      <div class="nav-links">
-        <a href="/SafeSpotter/index.html#features">Features</a>
-        <a href="/SafeSpotter/privacy.html" style="color: var(--text-primary);">Privacy</a>
-        <a href="/SafeSpotter/support.html">Support</a>
+    <meta name="theme-color" content="#070b18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fc" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/SafeSpotter/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/SafeSpotter/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/SafeSpotter/apple-touch-icon.png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="SafeSpotter" />
+    <meta property="og:title" content="Privacy policy — SafeSpotter" />
+    <meta property="og:description" content="No account, no developer server, no analytics. The whole data story." />
+    <meta property="og:url" content="https://simo-hue.github.io/SafeSpotter/privacy.html" />
+    <meta property="og:image" content="https://simo-hue.github.io/SafeSpotter/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script>
+      (function () {
+        // Reveal-on-scroll styles only apply when this runs, so the page is
+        // fully readable with JavaScript disabled.
+        document.documentElement.classList.add('js');
+        try {
+          var saved = localStorage.getItem('safespotter-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+        } catch (error) {
+          /* keep the dark default */
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 13.4A8.2 8.2 0 0 1 10.6 4a8.2 8.2 0 1 0 9.4 9.4Z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+    </svg>
+
+    <header class="site-head">
+      <div class="shell shell--wide">
+        <div class="site-head__bar">
+          <a class="wordmark" href="/SafeSpotter/">
+            <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+            SafeSpotter
+          </a>
+
+          <nav class="site-nav" aria-label="Primary">
+            <a href="/SafeSpotter/#how">How it works</a>
+            <a href="/SafeSpotter/privacy.html" aria-current="page">Privacy</a>
+            <a href="/SafeSpotter/#faq">FAQ</a>
+            <a href="/SafeSpotter/support.html">Support</a>
+          </nav>
+
+          <div class="head-actions">
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+              <svg class="icon-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+              <svg class="icon-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+            </button>
+            <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+              <svg aria-hidden="true"><use href="#i-menu" /></svg>
+            </button>
+            <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+          </div>
+        </div>
+
+        <nav class="menu-panel" id="menu-panel" data-menu-panel hidden aria-label="Menu">
+          <a href="/SafeSpotter/#how">How it works</a>
+          <a href="/SafeSpotter/privacy.html">Privacy policy</a>
+          <a href="/SafeSpotter/terms.html">Terms of use</a>
+          <a href="/SafeSpotter/support.html">Support</a>
+          <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+        </nav>
       </div>
-    </div>
-  </nav>
+    </header>
 
-  <main>
-    <div class="container legal-content reveal">
-      <h1>Privacy Policy</h1>
-      <div class="last-updated">Last Updated: June 8, 2026</div>
+    <main id="main">
+      <div class="shell">
+        <div class="doc-head">
+          <h1>Privacy policy</h1>
+          <p>
+            This policy covers the SafeSpotter iPhone app and this website. It is written to be read,
+            not to be survived.
+          </p>
+          <p class="doc-meta">Last updated 5 August 2026 · App version 1.1</p>
+        </div>
 
-      <div class="glass-panel feature-card card-hover-effect" style="margin-bottom: var(--spacing-xl);">
-        <h3 style="color: var(--secondary-color); margin-bottom: var(--spacing-sm);">TL;DR: We have zero access to your data.</h3>
-        <p style="margin: 0;">SafeSpot requires no app-specific account and uses no developer backend for your content. You can keep data only on your device or enable synchronization through your private iCloud database. We do not collect telemetry, analytics, or crash reports.</p>
+        <div class="doc-layout">
+          <nav class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#collect">1. What is collected</a></li>
+              <li><a href="#storage">2. Where your data lives</a></li>
+              <li><a href="#sync">3. Turning iCloud sync on and off</a></li>
+              <li><a href="#faceid">4. Face ID and passcode</a></li>
+              <li><a href="#photos">5. Photos</a></li>
+              <li><a href="#notifications">6. Notifications</a></li>
+              <li><a href="#website">7. This website</a></li>
+              <li><a href="#deletion">8. Deleting your data</a></li>
+              <li><a href="#children">9. Children</a></li>
+              <li><a href="#changes">10. Changes</a></li>
+              <li><a href="#contact">11. Contact</a></li>
+            </ol>
+          </nav>
+
+          <div class="prose">
+            <div class="callout">
+              <h2>The short version</h2>
+              <p>
+                SafeSpotter has no account and no developer server. What you write stays on your iPhone,
+                and — only if you switch sync on — in your own private iCloud database. There are no
+                analytics, no crash-reporting SDKs, no advertising and no trackers. The developer cannot
+                see your items.
+              </p>
+            </div>
+
+            <h2 id="collect">1. What is collected</h2>
+            <p>
+              Nothing. SafeSpotter does not ask you to create an account, does not ask for your email
+              address, and contains no analytics, attribution, advertising or crash-reporting SDKs. No
+              usage data, device identifier or diagnostic report is sent to the developer.
+            </p>
+            <p>
+              Apple may share aggregate App Store statistics and, separately, anonymised crash or usage
+              data with the developer if <em>you</em> opted into sharing analytics with app developers in
+              iOS Settings. That flow belongs to Apple, is anonymised by Apple, and never contains the
+              contents of your items.
+            </p>
+
+            <h2 id="storage">2. Where your data lives</h2>
+            <p>
+              Everything you type — item names, categories, places, rooms, containers, exact spots,
+              private notes, reminder settings and any photos you attach — is written to the app's own
+              storage on your device, and is available offline.
+            </p>
+            <p>
+              If you turn on <strong>Sync with iCloud</strong> in Settings, the same records are also
+              stored in <strong>your private iCloud database</strong> through Apple's CloudKit, so they
+              appear on your other devices signed in to the same Apple Account. Item details are stored
+              in encrypted CloudKit fields, and photos as encrypted CloudKit assets. That database
+              belongs to your Apple Account. The developer has no access to it and no server of their
+              own that receives your content.
+            </p>
+
+            <h2 id="sync">3. Turning iCloud sync on and off</h2>
+            <p>
+              Sync is optional and reversible. Turning it <strong>off</strong> copies your items into a
+              local-only store on that iPhone and stops further synchronising. Turning it back
+              <strong>on</strong> merges local additions, edits and deletions with what is already in
+              iCloud, keeping the most recent change for each item.
+            </p>
+            <p>
+              Copies that were already synchronised are intentionally retained in your iCloud account
+              when you switch sync off, so that re-enabling it does not lose anything. To remove them,
+              delete the items in the app while sync is on, or remove SafeSpotter's iCloud data from your
+              Apple Account settings.
+            </p>
+
+            <h2 id="faceid">4. Face ID and passcode</h2>
+            <p>
+              The optional app lock uses Apple's <code>LocalAuthentication</code> framework. Matching
+              happens inside the Secure Enclave on your device; the app receives only a success or
+              failure result and never has access to your face or fingerprint data. Authentication is
+              requested when you tap <strong>Unlock</strong> — never silently in the background.
+            </p>
+
+            <h2 id="photos">5. Photos</h2>
+            <p>
+              Attaching a photo uses the system <code>PhotosUI</code> picker, so the app sees only the
+              image you pick — not your library. Photos are resized and stripped of metadata before being
+              saved. They stay on the device when sync is off, and travel as encrypted CloudKit assets
+              when sync is on.
+            </p>
+
+            <h2 id="notifications">6. Notifications</h2>
+            <p>
+              Check-in reminders are <strong>local</strong> notifications scheduled on your device. Their
+              text never contains the item's name or location. When iCloud sync is enabled, CloudKit uses
+              silent push messages to tell the app that something changed; these carry no content of
+              yours and are never used for marketing.
+            </p>
+
+            <h2 id="website">7. This website</h2>
+            <p>
+              This site sets no cookies, runs no analytics and loads no third-party resources — fonts,
+              images and scripts are all served from this domain. It is hosted on GitHub Pages, whose
+              servers keep standard web logs (including IP addresses) as part of delivering the page;
+              that processing is GitHub's, described in the
+              <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.
+            </p>
+            <p>
+              Your theme choice (dark or light) is remembered in your browser's local storage. It never
+              leaves your browser.
+            </p>
+
+            <h2 id="deletion">8. Deleting your data</h2>
+            <p>
+              Deleting an item in the app removes it, and its photo, from the device — and from your
+              iCloud database when sync is on. Deleting the app removes its local store from that iPhone.
+              If you had sync enabled, remove SafeSpotter's iCloud data from your Apple Account settings
+              to clear the cloud copy as well.
+            </p>
+            <p>
+              There is nothing for the developer to delete on request, because the developer holds
+              nothing.
+            </p>
+
+            <h2 id="children">9. Children</h2>
+            <p>
+              SafeSpotter is rated 4+ and is not directed at children specifically. It collects no
+              personal data from anyone, of any age.
+            </p>
+
+            <h2 id="changes">10. Changes</h2>
+            <p>
+              If this policy changes, the updated version is published on this page with a new date, and
+              material changes are noted in the App Store release notes. There is no mailing list to
+              notify, because there are no email addresses.
+            </p>
+
+            <h2 id="contact">11. Contact</h2>
+            <p>
+              Questions about this policy are welcome at
+              <a href="mailto:mattioli.simone.10@gmail.com">mattioli.simone.10@gmail.com</a>, or through
+              the <a href="/SafeSpotter/support.html">support page</a>.
+            </p>
+          </div>
+        </div>
       </div>
+    </main>
 
-      <div class="legal-section">
-        <h2>1. Data Storage</h2>
-        <p>Data you enter into SafeSpot, including item names, locations, private notes, reminder settings, and photos, is stored locally for offline use. If you enable iCloud sync, that data is also synchronized through Apple's CloudKit service in your private iCloud database.</p>
-        <p>SafeSpot does not operate a backend server and does not receive your saved content. Turning off iCloud sync moves the active SafeSpot data to a local-only store. Copies previously synchronized with iCloud are retained so they can be merged if you enable sync again.</p>
+    <footer class="site-foot">
+      <div class="shell shell--wide">
+        <div class="site-foot__grid">
+          <div>
+            <a class="wordmark" href="/SafeSpotter/">
+              <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+              SafeSpotter
+            </a>
+            <p class="site-foot__blurb">Remember where you put what matters. An iPhone app by Simone Mattioli.</p>
+          </div>
+          <div>
+            <h2>App</h2>
+            <ul>
+              <li><a href="/SafeSpotter/#how">How it works</a></li>
+              <li><a href="/SafeSpotter/#privacy">Privacy by design</a></li>
+              <li><a href="/SafeSpotter/#faq">FAQ</a></li>
+              <li><a href="https://apps.apple.com/us/app/safespotter/id6775203521">App Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/SafeSpotter/privacy.html">Privacy policy</a></li>
+              <li><a href="/SafeSpotter/terms.html">Terms of use</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Help</h2>
+            <ul>
+              <li><a href="/SafeSpotter/support.html">Support</a></li>
+              <li><a href="mailto:mattioli.simone.10@gmail.com">Email the developer</a></li>
+              <li><a href="https://github.com/simo-hue/SafeSpotter">Source on GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-foot__bottom">
+          <span>© <span data-year>2026</span> Simone Mattioli</span>
+          <span>No cookies. No analytics. No third-party requests.</span>
+          <span>iPhone, Face ID, iCloud and App Store are trademarks of Apple Inc.</span>
+        </div>
       </div>
-
-      <div class="legal-section">
-        <h2>2. Data Collection and Tracking</h2>
-        <p>SafeSpot does <strong>not</strong> collect any personal data.</p>
-        <ul>
-          <li>No analytics SDKs (e.g., Google Analytics, Mixpanel, Firebase).</li>
-          <li>No crash reporting SDKs (e.g., Crashlytics, Sentry).</li>
-          <li>No advertising or third-party tracking networks.</li>
-        </ul>
-        <p>Apple may collect anonymized crash reports or usage metrics if you have explicitly opted into sharing this data with App Developers in your overall iOS settings, but this is handled entirely by Apple's OS, not our app code.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>3. Local Authentication (Face ID / Touch ID)</h2>
-        <p>SafeSpot offers a feature to lock the app using Face ID, Touch ID, or your device passcode. This utilizes Apple's <code>LocalAuthentication</code> framework. The biometric authentication happens entirely on your device's Secure Enclave. The app only receives a "success" or "failure" signal; it never has access to your actual biometric data.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>4. Photos and Camera Access</h2>
-        <p>If you choose to attach photos to your items, SafeSpot uses the native iOS <code>PhotosUI</code> picker. We only have access to the specific photos you select. Photos remain local when iCloud sync is off and are synchronized as encrypted CloudKit assets when iCloud sync is enabled.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>5. Notifications</h2>
-        <p>SafeSpot uses local notifications to remind you to check your items. Reminder alerts are scheduled and triggered locally. When iCloud sync is enabled, CloudKit uses silent Apple Push Notification service messages to notify the app about synchronization changes; these are not marketing notifications and do not contain your reminder alert text.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>6. Changes to This Privacy Policy</h2>
-        <p>We may update our Privacy Policy from time to time. Since we cannot email you (we don't have your email address), any updates will be reflected on this page and noted in the App Store release notes.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>7. Contact Us</h2>
-        <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at the details provided on our <a href="/SafeSpotter/support.html">Support page</a>.</p>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-bottom" style="border: none;">
-        &copy; 2026 SafeSpot App. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
+    </footer>
+  </body>
 </html>

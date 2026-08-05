@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://simo-hue.github.io/SafeSpotter/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://simo-hue.github.io/SafeSpotter/support.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://simo-hue.github.io/SafeSpotter/privacy.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://simo-hue.github.io/SafeSpotter/terms.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <priority>0.4</priority>
+  </url>
+</urlset>

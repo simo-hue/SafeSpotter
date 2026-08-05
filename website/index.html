@@ -1,361 +1,688 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SafeSpot - Remember where you keep what matters</title>
-  <meta name="description" content="SafeSpot is a private, offline-first memory vault for your iPhone with local-only storage or optional private iCloud sync." />
-  <link rel="stylesheet" href="/src/style.css" />
-  <style>
-    /* Specific Landing Page Styles */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      padding-top: 80px;
-    }
-    
-    .hero-bg-orb {
-      position: absolute;
-      top: 50%;
-      left: 70%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: conic-gradient(from 0deg, rgba(140, 107, 245, 0.3), rgba(51, 199, 171, 0.3), rgba(140, 107, 245, 0.3));
-      filter: blur(120px);
-      border-radius: 50%;
-      z-index: -1;
-      animation: spin 20s linear infinite;
-      mix-blend-mode: screen;
-    }
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>SafeSpotter — remember where you put important things</title>
+    <meta
+      name="description"
+      content="SafeSpotter is a private iPhone app that records the exact place you stored your passport, spare keys, documents and valuables. Face ID, no account, optional private iCloud sync."
+    />
+    <link rel="canonical" href="https://simo-hue.github.io/SafeSpotter/" />
 
-    @keyframes spin {
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
+    <meta name="theme-color" content="#070b18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fc" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/SafeSpotter/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/SafeSpotter/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/SafeSpotter/apple-touch-icon.png" />
 
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-xxl);
-      align-items: center;
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SafeSpotter" />
+    <meta property="og:title" content="SafeSpotter — remember where you put important things" />
+    <meta
+      property="og:description"
+      content="The room, the drawer, the exact spot. A private iPhone app for the things you put somewhere safe."
+    />
+    <meta property="og:url" content="https://simo-hue.github.io/SafeSpotter/" />
+    <meta property="og:image" content="https://simo-hue.github.io/SafeSpotter/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SafeSpotter: “Somewhere safe” isn’t an address." />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    .hero-text {
-      max-width: 600px;
-      z-index: 2;
-    }
+    <script>
+      // Resolve the theme before first paint so the page never flashes.
+      (function () {
+        // Reveal-on-scroll styles only apply when this runs, so the page is
+        // fully readable with JavaScript disabled.
+        document.documentElement.classList.add('js');
+        try {
+          var saved = localStorage.getItem('safespotter-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+        } catch (error) {
+          /* keep the dark default */
+        }
+      })();
+    </script>
 
-    .hero-text p {
-      margin-bottom: var(--spacing-xl);
-    }
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/main.js"></script>
 
-    .app-store-btn {
-      display: inline-block;
-      transition: transform var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-    
-    .app-store-btn::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-      transform: rotate(30deg) translateX(-100%);
-      animation: shimmer 4s infinite 2s;
-    }
-
-    @keyframes shimmer {
-      100% { transform: rotate(30deg) translateX(100%); }
-    }
-
-    .app-store-btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      filter: drop-shadow(0 10px 20px rgba(140, 107, 245, 0.4));
-    }
-
-    .hero-image-container {
-      position: relative;
-      perspective: 1200px;
-      z-index: 1;
-    }
-
-    .mockup-frame {
-      background: rgba(30, 30, 35, 0.4);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 46px;
-      padding: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: var(--shadow-elevation-high);
-      width: 320px;
-      margin: 0 auto;
-      /* The transform is now handled by scroll-parallax-rotate class where supported, 
-         otherwise fallback to a static 3D rotation */
-      transform: perspective(1200px) rotateY(-15deg) rotateX(10deg);
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-    }
-    
-    .mockup-frame:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Target the scroll-driven animation specifically to override the static transform fallback */
-    @supports (animation-timeline: scroll()) {
-      .mockup-frame {
-        transform: none; /* Reset static transform so animation takes over cleanly */
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SafeSpotter",
+        "alternateName": "SafeSpot",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "iOS 17.0 or later",
+        "softwareVersion": "1.1",
+        "fileSize": "2.6 MB",
+        "inLanguage": "en",
+        "url": "https://simo-hue.github.io/SafeSpotter/",
+        "downloadUrl": "https://apps.apple.com/us/app/safespotter/id6775203521",
+        "description": "A private iPhone app that records the exact place you stored important items, protected by Face ID, with optional private iCloud sync.",
+        "author": { "@type": "Person", "name": "Simone Mattioli" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
-    }
+    </script>
+  </head>
 
-    .mockup-screen {
-      background: #000;
-      border-radius: 34px;
-      height: 650px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      padding: 24px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
-    
-    .mockup-header {
-      color: white;
-      font-weight: bold;
-      font-size: 1.75rem;
-      margin-top: 24px;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
-    
-    .mockup-search {
-      background: #1c1c1e;
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: white;
-      margin-bottom: 24px;
-      width: 100%;
-      font-family: inherit;
-    }
-    
-    .mockup-card {
-      background: #1c1c1e;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: background 0.3s ease;
-    }
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: var(--spacing-xl);
-      margin-top: var(--spacing-xxl);
-    }
+    <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-documents" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" />
+        <path d="M14 3v5h5M9 13h6M9 17h4" />
+      </symbol>
+      <symbol id="i-keys" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="7" r="3.4" />
+        <path d="M12 10.4V20M12 14.2h3M12 17.2h2.2" />
+      </symbol>
+      <symbol id="i-money" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2.5" y="6" width="19" height="12" rx="2.5" />
+        <circle cx="12" cy="12" r="2.4" />
+        <path d="M6 12h.01M18 12h.01" />
+      </symbol>
+      <symbol id="i-electronics" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="7" width="18" height="10" rx="2.5" />
+        <path d="M7 12h.01M11 12h6" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="6.5" />
+        <path d="m16 16 4.5 4.5" />
+      </symbol>
+      <symbol id="i-faceid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 8.5v-2A2.5 2.5 0 0 1 6.5 4h2M15.5 4h2A2.5 2.5 0 0 1 20 6.5v2M20 15.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M8.5 20h-2A2.5 2.5 0 0 1 4 17.5v-2" />
+        <path d="M9 10v1.5M15 10v1.5M9.4 15.4s1 1.3 2.6 1.3 2.6-1.3 2.6-1.3" />
+      </symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8" />
+        <path d="M6.6 6.9C4.7 8.2 3.2 10 2.5 12c1.4 3.6 5 6 9.5 6 1.5 0 3-.3 4.3-.8M17.8 15.2c1-.9 1.9-1.9 2.5-3.2-1.4-3.6-5-6-9.5-6-.6 0-1.2 0-1.8.2" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9.5a6 6 0 1 1 12 0c0 3.8 1.5 5.3 1.5 5.3h-15S6 13.3 6 9.5Z" />
+        <path d="M10 18.3a2 2 0 0 0 4 0" />
+      </symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7.2 18.5h9.3a4.2 4.2 0 0 0 .4-8.4 5.6 5.6 0 0 0-10.8 1.4 3.6 3.6 0 0 0 1.1 7Z" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m5 12.5 4.5 4.5L19 7.5" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+        <path d="M6 12h12" />
+      </symbol>
+      <symbol id="i-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <circle cx="8.4" cy="10" r="1.4" />
+        <path d="m4 17.5 5-4.5 4.4 4M14 14.2 16 12.4l4 3.8" />
+      </symbol>
+      <symbol id="i-offline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3l18 18M12 18.5h.01" />
+        <path d="M8.6 14.7a5 5 0 0 1 3-1.4M5.2 11.2A10 10 0 0 1 9 8.9M2 7.6A15 15 0 0 1 6.8 5M22 7.6a15 15 0 0 0-8.6-4.3" />
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3.5 6.5h17M6.5 12h11M10 17.5h4" />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 13.4A8.2 8.2 0 0 1 10.6 4a8.2 8.2 0 1 0 9.4 9.4Z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M6 13l6 6 6-6" />
+      </symbol>
+    </svg>
 
-    .feature-card {
-      padding: var(--spacing-xl);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-elevation-high);
-      border-color: rgba(255, 255, 255, 0.15);
-      background: rgba(30, 35, 55, 0.7);
-    }
-    
-    .feature-card:hover::before {
-      opacity: 1;
-    }
-
-    .feature-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: var(--spacing-md);
-      filter: drop-shadow(0 4px 12px rgba(140, 107, 245, 0.5));
-    }
-
-    @media (max-width: 992px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .hero-text {
-        margin: 0 auto;
-      }
-      .hero-bg-orb {
-        left: 50%;
-        top: 30%;
-        width: 100vw;
-      }
-      .mockup-frame {
-        transform: none !important;
-        animation: none !important;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <nav>
-    <div class="container nav-content">
-      <a href="/SafeSpotter/" class="logo">
-        <img src="/public/logo.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
-        SafeSpot
-      </a>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="/SafeSpotter/privacy.html">Privacy</a>
-        <a href="/SafeSpotter/support.html">Support</a>
-      </div>
-    </div>
-  </nav>
-
-  <main>
-    <section class="hero">
-      <div class="hero-bg-orb"></div>
-      <div class="container hero-content">
-        <div class="hero-text reveal">
-          <h1>Find your important things <span class="text-gradient">fast.</span></h1>
-          <p>A private, offline-first memory vault for the things you put in a safe place and later forget. No SafeSpot account. Optional private iCloud sync.</p>
-          <a href="#" class="app-store-btn">
-            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1276560000&h=7e7b68fb1eaac8db3308600d3d573c9f" alt="Download on the App Store" style="height: 55px;">
+    <header class="site-head">
+      <div class="shell shell--wide">
+        <div class="site-head__bar">
+          <a class="wordmark" href="/SafeSpotter/">
+            <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+            SafeSpotter
           </a>
+
+          <nav class="site-nav" aria-label="Primary">
+            <a href="#how">How it works</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#faq">FAQ</a>
+            <a href="/SafeSpotter/support.html">Support</a>
+          </nav>
+
+          <div class="head-actions">
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+              <svg class="icon-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+              <svg class="icon-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+            </button>
+            <button
+              class="icon-btn menu-toggle"
+              type="button"
+              data-menu-toggle
+              aria-expanded="false"
+              aria-controls="menu-panel"
+              aria-label="Open menu"
+            >
+              <svg aria-hidden="true"><use href="#i-menu" /></svg>
+            </button>
+            <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+          </div>
         </div>
-        
-        <div class="hero-image-container reveal" style="transition-delay: 0.2s;">
-          <div class="mockup-frame scroll-parallax-rotate">
-            <div class="mockup-screen">
-              <div class="mockup-header">SafeSpot</div>
-              <input type="text" class="mockup-search" placeholder="Search...">
-              <div class="mockup-card">
-                <div style="font-weight:600; color:white; margin-bottom:4px; font-size: 1.1rem;">Passport</div>
-                <div style="font-size:0.85rem; color:#aaa;">Office › Desk › Bottom Drawer</div>
+
+        <nav class="menu-panel" id="menu-panel" data-menu-panel hidden aria-label="Menu">
+          <a href="#how">How it works</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#faq">FAQ</a>
+          <a href="/SafeSpotter/support.html">Support</a>
+          <a href="/SafeSpotter/privacy.html">Privacy policy</a>
+          <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero ------------------------------------------------------------- -->
+      <section class="section hero">
+        <div class="shell">
+          <div class="hero__inner">
+            <p class="eyebrow rise rise-1">iPhone · Free · No account</p>
+            <h1 class="rise rise-2"><em>“Somewhere safe”</em> isn’t an address.</h1>
+            <p class="hero__lede rise rise-3">
+              The note you never wrote — the room, the drawer, the exact corner where you put your
+              passport, your spare keys, your emergency cash. On your iPhone, behind Face ID, with no
+              account to create.
+            </p>
+
+            <figure class="find rise rise-4" data-find>
+              <div class="find__top">
+                <span class="find__icon" aria-hidden="true">
+                  <svg><use href="#i-documents" data-find-icon /></svg>
+                </span>
+                <figcaption class="find__name" data-find-name>Passport</figcaption>
+                <span class="find__tag" data-find-tag>Last checked · 12 Mar</span>
               </div>
-              <div class="mockup-card">
-                <div style="font-weight:600; color:white; margin-bottom:4px; font-size: 1.1rem;">Spare Keys</div>
-                <div style="font-size:0.85rem; color:#aaa;">Hallway › Key Cabinet</div>
-              </div>
-              <div class="mockup-card" style="border-color: rgba(51, 199, 171, 0.2); background: rgba(51, 199, 171, 0.05);">
-                <div style="font-weight:600; color:white; margin-bottom:4px; font-size: 1.1rem;">Emergency Cash</div>
-                <div style="font-size:0.85rem; color:var(--secondary-color); display: flex; align-items: center; gap: 4px;">
-                  <span style="font-size: 12px;">🔒</span> Location hidden
-                </div>
+              <ol class="path" data-find-path>
+                <li>Home</li>
+                <li>Study</li>
+                <li>Filing cabinet</li>
+                <li class="is-target">Blue folder, behind the deeds</li>
+              </ol>
+              <p class="find__hint">
+                <svg aria-hidden="true"><use href="#i-offline" /></svg>
+                Typed by you, stored on your device. No GPS, no map, no lookup.
+              </p>
+            </figure>
+
+            <div class="hero__cta rise rise-5">
+              <a class="badge" href="https://apps.apple.com/us/app/safespotter/id6775203521">
+                <img src="./src/assets/app-store-badge.svg" alt="Download SafeSpotter on the App Store" width="180" height="60" />
+              </a>
+              <a class="btn btn--ghost" href="#how">
+                See how it works
+                <svg aria-hidden="true" width="16" height="16"><use href="#i-arrow-down" /></svg>
+              </a>
+            </div>
+            <p class="hero__meta rise rise-5">
+              <span>Free</span><span>iOS 17.0+</span><span>2.6 MB</span><span>No ads, no tracking</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="shell shell--wide">
+          <div class="shelf">
+            <div class="phone phone--sm shelf__side">
+              <img
+                src="./src/assets/screens/add-item.webp"
+                alt="The Add Item screen with fields for name, category, place, room, container and exact spot."
+                width="700"
+                height="1522"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="phone">
+              <img
+                src="./src/assets/screens/private-mode.webp"
+                alt="The SafeSpotter home screen with a search field, category filters and a saved item."
+                width="700"
+                height="1522"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </div>
+            <div class="phone phone--sm shelf__side">
+              <img
+                src="./src/assets/screens/settings.webp"
+                alt="SafeSpotter settings showing the Face ID lock and Discreet Mode switches."
+                width="700"
+                height="1522"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The problem ------------------------------------------------------ -->
+      <section class="section section--sunk">
+        <div class="shell">
+          <div class="section__head reveal">
+            <p class="eyebrow">Why it exists</p>
+            <h2>Everyone has a safe place. Nobody remembers it.</h2>
+            <p>
+              You didn’t lose the passport. You put it somewhere sensible — so sensible that months
+              later, the sensible place is every drawer in the house.
+            </p>
+          </div>
+
+          <ul class="scenarios reveal">
+            <li>
+              <span class="when">06:10</span>
+              <b>The passport</b>
+              <span>Flight in three hours, and the folder isn’t where you would have sworn it was.</span>
+            </li>
+            <li>
+              <span class="when">Locked out</span>
+              <b>The spare key</b>
+              <span>You definitely gave one to someone. Or hid one. Somewhere sensible.</span>
+            </li>
+            <li>
+              <span class="when">Laptop died</span>
+              <b>The backup drive</b>
+              <span>It’s with the cables. The cables are in one of four possible drawers.</span>
+            </li>
+            <li>
+              <span class="when">Claim time</span>
+              <b>The warranty papers</b>
+              <span>The receipt exists. Its whereabouts do not.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- How it works ------------------------------------------------------ -->
+      <section class="section" id="how">
+        <div class="shell shell--wide">
+          <div class="split">
+            <div class="reveal">
+              <p class="eyebrow">Saving something</p>
+              <h2 class="section__head-title" style="font-size: var(--step-3); margin-bottom: var(--s-4)">
+                Four fields, from the front door inwards.
+              </h2>
+              <p class="lede" style="margin-bottom: var(--s-6)">
+                A location is only useful if it’s specific. SafeSpotter walks you from the building to
+                the exact corner, so future you doesn’t have to guess.
+              </p>
+
+              <ol class="steps">
+                <li>
+                  <b>Place</b>
+                  <span>Home · Office · Parents’ house</span>
+                </li>
+                <li>
+                  <b>Room</b>
+                  <span>Bedroom · Garage · Study</span>
+                </li>
+                <li>
+                  <b>Container</b>
+                  <span>Wardrobe · Drawer · Safe · Box</span>
+                </li>
+                <li>
+                  <b>Exact spot</b>
+                  <span>Top shelf · Blue folder · Behind the documents</span>
+                </li>
+              </ol>
+
+              <p class="lede" style="margin-top: var(--s-6); margin-bottom: var(--s-3); font-size: var(--step-0)">
+                And, if it helps:
+              </p>
+              <ul class="chips">
+                <li>Photo</li>
+                <li>Private note</li>
+                <li>Category</li>
+                <li>Sensitivity</li>
+                <li>Check-in reminder</li>
+              </ul>
+
+              <p class="note">
+                <b>Typed, not tracked.</b> These are words you write, not coordinates. SafeSpotter never
+                asks for location access, never opens a map, and has no idea where you or your things
+                actually are.
+              </p>
+            </div>
+
+            <div class="split__media reveal">
+              <div class="phone">
+                <img
+                  src="./src/assets/screens/add-item.webp"
+                  alt="Add Item screen: Basic Info, Category, Location with Place, Room, Container and Exact Spot fields, an optional photo and a private note."
+                  width="700"
+                  height="1522"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Finding ------------------------------------------------------------ -->
+      <section class="section section--sunk">
+        <div class="shell shell--wide">
+          <div class="split split--flip">
+            <div class="reveal">
+              <p class="eyebrow">Finding it again</p>
+              <h2 style="font-size: var(--step-3); margin-bottom: var(--s-4)">
+                One search box. Everything you wrote.
+              </h2>
+              <p class="lede" style="margin-bottom: var(--s-6)">
+                Search runs across names, categories, places, rooms, containers, exact spots and your
+                private notes — instantly, on the device, offline. Type “blue folder” and the passport
+                turns up.
+              </p>
+
+              <div class="grid grid--2">
+                <div class="card">
+                  <span class="card__icon"><svg aria-hidden="true"><use href="#i-filter" /></svg></span>
+                  <h3>Ten categories</h3>
+                  <p>Documents, keys, money, jewellery, electronics, travel, health, home, personal, other — filter the list down with one tap.</p>
+                </div>
+                <div class="card">
+                  <span class="card__icon"><svg aria-hidden="true"><use href="#i-offline" /></svg></span>
+                  <h3>Works with no signal</h3>
+                  <p>Everything is stored on the device. Aeroplane mode, a basement, a foreign SIM — it all still opens instantly.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="split__media reveal">
+              <div class="phone">
+                <img
+                  src="./src/assets/screens/categories.webp"
+                  alt="The category picker open on the Add Item screen, showing Documents, Keys, Money, Jewelry, Electronics, Travel, Health, Home, Personal and Other."
+                  width="700"
+                  height="1522"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy ------------------------------------------------------------ -->
+      <section class="section" id="privacy">
+        <div class="shell shell--wide">
+          <div class="section__head reveal">
+            <p class="eyebrow eyebrow--teal">Privacy</p>
+            <h2>An app that knows where your valuables are should know nothing else.</h2>
+            <p>
+              SafeSpotter has no account, no developer server and no analytics. Here is the entire
+              data story, in two columns.
+            </p>
+          </div>
+
+          <div class="ledger reveal">
+            <div class="ledger__col">
+              <h3>Stays on your iPhone</h3>
+              <p>Written to the app’s own storage, and to your private iCloud database if you switch sync on.</p>
+              <ul>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Item names and categories</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Places, rooms, containers, exact spots</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Private notes and photos you attach</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Reminder dates and sensitivity levels</span></li>
+                <li><svg aria-hidden="true"><use href="#i-check" /></svg><span>Face ID results — handled by the Secure Enclave, never seen by the app</span></li>
+              </ul>
+            </div>
+
+            <div class="ledger__col ledger__col--none">
+              <h3>Reaches the developer</h3>
+              <p class="ledger__none">Nothing at all.</p>
+              <ul>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>No SafeSpotter account, no sign-in, no email address</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>No developer server your content is sent to</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>No analytics or crash-reporting SDKs</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>No advertising and no third-party trackers</span></li>
+                <li><svg aria-hidden="true"><use href="#i-minus" /></svg><span>No location permission, ever</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="split" style="margin-top: var(--s-8)">
+            <div class="reveal">
+              <div class="grid">
+                <div class="card">
+                  <span class="card__icon"><svg aria-hidden="true"><use href="#i-faceid" /></svg></span>
+                  <h3>Locked behind Face ID</h3>
+                  <p>Turn on the app lock and SafeSpotter asks for Face ID, Touch ID or your passcode before it shows anything. It waits for you to tap Unlock — no surprise scans.</p>
+                </div>
+                <div class="card">
+                  <span class="card__icon"><svg aria-hidden="true"><use href="#i-eye-off" /></svg></span>
+                  <h3>Discreet Mode</h3>
+                  <p>Mark an item Private or Highly Private and its name and location are masked in the list, in search and in notifications until you unlock them.</p>
+                </div>
+                <div class="card">
+                  <span class="card__icon"><svg aria-hidden="true"><use href="#i-cloud" /></svg></span>
+                  <h3>iCloud sync, only if you ask</h3>
+                  <p>One switch in Settings. On: your items travel through <em>your</em> private iCloud database, with encrypted CloudKit fields and encrypted photo assets. Off: a local-only store on this iPhone.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="split__media reveal">
+              <div class="phone phone--sm">
+                <img
+                  src="./src/assets/screens/settings.webp"
+                  alt="Settings screen with switches for Require Face ID or Passcode and Discreet Mode, a default reminder picker, and a privacy statement link."
+                  width="700"
+                  height="1522"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="phone phone--sm">
+                <img
+                  src="./src/assets/screens/private-mode.webp"
+                  alt="The home list with Discreet Mode on: the item reads Private Item, location hidden, sensitive details masked."
+                  width="700"
+                  height="1522"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+
+          <p class="note reveal" style="margin-top: var(--s-7)">
+            <b>Sync is a choice you can reverse.</b> Turning iCloud sync off copies everything into a
+            local-only store on the device; turning it back on merges what changed. Copies already in
+            iCloud stay in your account until you remove them there — SafeSpotter can’t reach into
+            your iCloud to delete them, and neither can anyone else.
+          </p>
+        </div>
+      </section>
+
+      <!-- Reminders ---------------------------------------------------------- -->
+      <section class="section section--sunk">
+        <div class="shell shell--wide">
+          <div class="split split--flip">
+            <div class="reveal">
+              <p class="eyebrow">Staying true</p>
+              <h2 style="font-size: var(--step-3); margin-bottom: var(--s-4)">
+                A nudge to check the things you never touch.
+              </h2>
+              <p class="lede" style="margin-bottom: var(--s-6)">
+                Monthly, every three or six months, yearly, or a date you pick. SafeSpotter reminds you
+                to confirm an item is still where you left it, then records when you last checked.
+              </p>
+              <p class="note">
+                <b>The notification never names the item.</b> It’s a local notification, scheduled on the
+                device, worded so a glance at your lock screen gives nothing away.
+              </p>
+            </div>
+
+            <div class="split__media reveal">
+              <div class="phone">
+                <img
+                  src="./src/assets/screens/reminders.webp"
+                  alt="Reminder picker showing No Reminder, Every Month, Every 3 Months, Every 6 Months, Every Year and Custom Date."
+                  width="700"
+                  height="1522"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Specs + FAQ --------------------------------------------------------- -->
+      <section class="section" id="faq">
+        <div class="shell">
+          <dl class="specs reveal">
+            <div><dt>Price</dt><dd>Free</dd></div>
+            <div><dt>Version</dt><dd>1.1</dd></div>
+            <div><dt>Size</dt><dd>2.6 MB</dd></div>
+            <div><dt>Requires</dt><dd>iOS 17.0</dd></div>
+            <div><dt>Category</dt><dd>Utilities</dd></div>
+            <div><dt>Language</dt><dd>English</dd></div>
+          </dl>
+
+          <div class="section__head reveal" style="margin-top: var(--s-8)">
+            <p class="eyebrow">Questions</p>
+            <h2>The things people ask first.</h2>
+          </div>
+
+          <div class="faq reveal">
+            <details>
+              <summary>Does SafeSpotter track my location?</summary>
+              <p>
+                No. It never requests location access and shows no maps. A “location” in SafeSpotter is
+                text you type — <em>Home › Bedroom › Wardrobe › Top shelf</em> — and it means nothing to
+                anyone but you.
+              </p>
+            </details>
+            <details>
+              <summary>Can you see what I store?</summary>
+              <p>
+                No. There is no SafeSpotter account and no developer server holding your content. With
+                iCloud sync on, your items sit in your own private iCloud database, which the developer
+                cannot open. There are no analytics, crash-reporting or advertising SDKs in the app.
+              </p>
+            </details>
+            <details>
+              <summary>Do I need iCloud?</summary>
+              <p>
+                No. Sync is a single switch in Settings and it is optional. With it off, SafeSpotter uses
+                a local-only store on that iPhone. With it on, the same items appear on your other
+                devices signed in to the same Apple Account.
+              </p>
+            </details>
+            <details>
+              <summary>What happens if I lose my iPhone?</summary>
+              <p>
+                If iCloud sync was on, sign in to iCloud on the new device and your items come back. If
+                it was off, restore the device from an iCloud or computer backup. Without either, there
+                is nothing to restore from — the developer holds no copy.
+              </p>
+            </details>
+            <details>
+              <summary>Is it really free?</summary>
+              <p>Yes. No subscription, no in-app purchases, no ads.</p>
+            </details>
+            <details>
+              <summary>What is Discreet Mode?</summary>
+              <p>
+                A switch in Settings that masks anything you marked Private or Highly Private. The list
+                shows “Private Item · Location hidden” instead of the name and place, and reminders keep
+                the same silence, until you unlock the entry.
+              </p>
+            </details>
+            <details>
+              <summary>Does it work offline?</summary>
+              <p>
+                Always. Adding, searching and opening items never needs a connection. iCloud sync, when
+                enabled, simply catches up the next time the device is online.
+              </p>
+            </details>
+            <details>
+              <summary>Which devices does it run on?</summary>
+              <p>
+                iPhone on iOS 17.0 or later. It also runs on Apple Silicon Macs and Apple Vision Pro
+                through Apple’s compatibility layer.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closer -------------------------------------------------------------- -->
+      <section class="section" style="padding-top: 0">
+        <div class="shell">
+          <div class="closer reveal">
+            <h2>Give your important things an address.</h2>
+            <p>Free on the App Store. Nothing to sign up for, nothing to configure — add the first item in about twenty seconds.</p>
+            <a class="badge" href="https://apps.apple.com/us/app/safespotter/id6775203521">
+              <img src="./src/assets/app-store-badge.svg" alt="Download SafeSpotter on the App Store" width="180" height="60" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="shell shell--wide">
+        <div class="site-foot__grid">
+          <div>
+            <a class="wordmark" href="/SafeSpotter/">
+              <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+              SafeSpotter
+            </a>
+            <p class="site-foot__blurb">Remember where you put what matters. An iPhone app by Simone Mattioli.</p>
+          </div>
+          <div>
+            <h2>App</h2>
+            <ul>
+              <li><a href="#how">How it works</a></li>
+              <li><a href="#privacy">Privacy by design</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="https://apps.apple.com/us/app/safespotter/id6775203521">App Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/SafeSpotter/privacy.html">Privacy policy</a></li>
+              <li><a href="/SafeSpotter/terms.html">Terms of use</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Help</h2>
+            <ul>
+              <li><a href="/SafeSpotter/support.html">Support</a></li>
+              <li><a href="mailto:mattioli.simone.10@gmail.com">Email the developer</a></li>
+              <li><a href="https://github.com/simo-hue/SafeSpotter">Source on GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-foot__bottom">
+          <span>© <span data-year>2026</span> Simone Mattioli</span>
+          <span>No cookies. No analytics. No third-party requests.</span>
+          <span>iPhone, Face ID, iCloud and App Store are trademarks of Apple Inc.</span>
+        </div>
       </div>
-    </section>
-
-    <section id="features" class="container">
-      <h2 class="reveal text-center" style="text-align: center;">Why SafeSpot?</h2>
-      <div class="features-grid">
-        
-        <div class="feature-card glass-panel reveal card-hover-effect">
-          <div class="feature-icon">🔒</div>
-          <h3>Your Storage Choice</h3>
-          <p>Keep your content only on one device or enable synchronization through your private iCloud database. No developer backend, no SafeSpot account, and no tracking SDKs.</p>
-        </div>
-
-        <div class="feature-card glass-panel reveal card-hover-effect" style="transition-delay: 0.1s;">
-          <div class="feature-icon">📱</div>
-          <h3>Face ID Protected</h3>
-          <p>Secure your app with Face ID, Touch ID, or your device passcode. Your vault locks immediately when you leave the app.</p>
-        </div>
-
-        <div class="feature-card glass-panel reveal card-hover-effect" style="transition-delay: 0.2s;">
-          <div class="feature-icon">🤫</div>
-          <h3>Discreet Mode</h3>
-          <p>Mask sensitive items in your list and notifications. Keep your most private locations hidden from prying eyes.</p>
-        </div>
-
-        <div class="feature-card glass-panel reveal card-hover-effect" style="transition-delay: 0.3s;">
-          <div class="feature-icon">⚡️</div>
-          <h3>Lightning Fast Search</h3>
-          <p>Find what you need instantly. Search across item names, categories, rooms, specific spots, and even private notes.</p>
-        </div>
-
-        <div class="feature-card glass-panel reveal card-hover-effect" style="transition-delay: 0.4s;">
-          <div class="feature-icon">⏰</div>
-          <h3>Local Reminders</h3>
-          <p>Set generic, discreet reminders to check on items after 1, 3, or 6 months without revealing the item's name.</p>
-        </div>
-
-        <div class="feature-card glass-panel reveal card-hover-effect" style="transition-delay: 0.5s;">
-          <div class="feature-icon">✨</div>
-          <h3>Premium Design</h3>
-          <p>Enjoy a beautiful, dark-themed, native iOS experience built with modern Apple guidelines and fluid animations.</p>
-        </div>
-
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-col">
-          <a href="/SafeSpotter/" class="logo" style="margin-bottom: 24px;">
-            <img src="/public/logo.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
-            SafeSpot
-          </a>
-          <p style="font-size: 0.95rem; max-width: 250px;">Remember where you keep what matters.</p>
-        </div>
-        <div class="footer-col">
-          <h3>Legal</h3>
-          <ul>
-            <li><a href="/SafeSpotter/privacy.html">Privacy Policy</a></li>
-            <li><a href="/SafeSpotter/terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h3>Help</h3>
-          <ul>
-            <li><a href="/SafeSpotter/support.html">Support & Contact</a></li>
-            <li><a href="/SafeSpotter/support.html#faq">FAQ</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        &copy; 2026 SafeSpot App. All rights reserved. iPhone and App Store are trademarks of Apple Inc.
-      </div>
-    </div>
-  </footer>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
+    </footer>
+  </body>
 </html>
-<!-- Deploy trigger: 1 -->
-<!-- Deploy trigger: Sun May 31 16:51:08 CEST 2026 -->

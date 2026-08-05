@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://simo-hue.github.io/SafeSpotter/sitemap.xml

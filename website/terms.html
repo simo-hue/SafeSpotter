@@ -1,114 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service - SafeSpot</title>
-  <meta name="description" content="Terms of Service for SafeSpot App." />
-  <link rel="stylesheet" href="/src/style.css" />
-  <style>
-    .legal-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding-top: 120px;
-    }
-    
-    .legal-content h1 {
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    .last-updated {
-      color: var(--text-tertiary);
-      margin-bottom: var(--spacing-xl);
-      font-size: 0.9rem;
-    }
-    
-    .legal-section {
-      margin-bottom: var(--spacing-xl);
-    }
-    
-    .legal-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: var(--spacing-md);
-      color: var(--primary-color);
-    }
-    
-    .legal-section p, .legal-section ul {
-      margin-bottom: var(--spacing-md);
-    }
-    
-    .legal-section ul {
-      padding-left: var(--spacing-lg);
-      color: var(--text-secondary);
-    }
-    
-    .legal-section li {
-      margin-bottom: var(--spacing-xs);
-    }
-  </style>
-</head>
-<body>
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Terms of use — SafeSpotter</title>
+    <meta name="description" content="The terms that apply when you use SafeSpotter: your licence, your data and backups, iCloud sync, liability and Apple's role." />
+    <link rel="canonical" href="https://simo-hue.github.io/SafeSpotter/terms.html" />
 
-  <nav>
-    <div class="container nav-content">
-      <a href="/SafeSpotter/" class="logo">
-        <img src="/public/logo.png" alt="SafeSpot Logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzQzMjhBOCIvPjwvc3ZnPg=='"/>
-        SafeSpot
-      </a>
-      <div class="nav-links">
-        <a href="/SafeSpotter/index.html#features">Features</a>
-        <a href="/SafeSpotter/privacy.html">Privacy</a>
-        <a href="/SafeSpotter/support.html">Support</a>
+    <meta name="theme-color" content="#070b18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7fc" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/SafeSpotter/icon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/SafeSpotter/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/SafeSpotter/apple-touch-icon.png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="SafeSpotter" />
+    <meta property="og:title" content="Terms of use — SafeSpotter" />
+    <meta property="og:description" content="The terms that apply when you use SafeSpotter: your licence, your data and backups, iCloud sync, liability and Apple's role." />
+    <meta property="og:url" content="https://simo-hue.github.io/SafeSpotter/terms.html" />
+    <meta property="og:image" content="https://simo-hue.github.io/SafeSpotter/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script>
+      (function () {
+        // Reveal-on-scroll styles only apply when this runs, so the page is
+        // fully readable with JavaScript disabled.
+        document.documentElement.classList.add('js');
+        try {
+          var saved = localStorage.getItem('safespotter-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+        } catch (error) {
+          /* keep the dark default */
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 13.4A8.2 8.2 0 0 1 10.6 4a8.2 8.2 0 1 0 9.4 9.4Z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+    </svg>
+
+    <header class="site-head">
+      <div class="shell shell--wide">
+        <div class="site-head__bar">
+          <a class="wordmark" href="/SafeSpotter/">
+            <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+            SafeSpotter
+          </a>
+
+          <nav class="site-nav" aria-label="Primary">
+            <a href="/SafeSpotter/#how">How it works</a>
+            <a href="/SafeSpotter/privacy.html">Privacy</a>
+            <a href="/SafeSpotter/#faq">FAQ</a>
+            <a href="/SafeSpotter/support.html">Support</a>
+          </nav>
+
+          <div class="head-actions">
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to light theme">
+              <svg class="icon-moon" aria-hidden="true"><use href="#i-moon" /></svg>
+              <svg class="icon-sun" aria-hidden="true"><use href="#i-sun" /></svg>
+            </button>
+            <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+              <svg aria-hidden="true"><use href="#i-menu" /></svg>
+            </button>
+            <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+          </div>
+        </div>
+
+        <nav class="menu-panel" id="menu-panel" data-menu-panel hidden aria-label="Menu">
+          <a href="/SafeSpotter/#how">How it works</a>
+          <a href="/SafeSpotter/privacy.html">Privacy policy</a>
+          <a href="/SafeSpotter/terms.html">Terms of use</a>
+          <a href="/SafeSpotter/support.html">Support</a>
+          <a class="btn btn--primary" href="https://apps.apple.com/us/app/safespotter/id6775203521">Get the app</a>
+        </nav>
       </div>
-    </div>
-  </nav>
+    </header>
 
-  <main>
-    <div class="container legal-content reveal">
-      <h1>Terms of Service</h1>
-      <div class="last-updated">Last Updated: May 31, 2026</div>
+    <main id="main">
+      <div class="shell">
+        <div class="doc-head">
+          <h1>Terms of use</h1>
+          <p>These terms apply to the SafeSpotter iPhone app, published by Simone Mattioli.</p>
+          <p class="doc-meta">Last updated 5 August 2026 · App version 1.1</p>
+        </div>
 
-      <div class="legal-section">
-        <h2>1. Acceptance of Terms</h2>
-        <p>By downloading or using the SafeSpot application ("App"), these terms will automatically apply to you. You should make sure therefore that you read them carefully before using the app.</p>
+        <div class="doc-layout">
+          <nav class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#acceptance">1. Accepting these terms</a></li>
+              <li><a href="#licence">2. Your licence</a></li>
+              <li><a href="#use">3. Acceptable use</a></li>
+              <li><a href="#data">4. Your data and backups</a></li>
+              <li><a href="#icloud">5. iCloud sync</a></li>
+              <li><a href="#warranty">6. Warranty and liability</a></li>
+              <li><a href="#apple">7. Apple</a></li>
+              <li><a href="#changes">8. Changes</a></li>
+              <li><a href="#contact">9. Contact</a></li>
+            </ol>
+          </nav>
+
+          <div class="prose">
+            <h2 id="acceptance">1. Accepting these terms</h2>
+            <p>
+              By downloading or using SafeSpotter (the “app”) you accept these terms. If you do not accept
+              them, do not use the app.
+            </p>
+
+            <h2 id="licence">2. Your licence</h2>
+            <p>
+              You get a personal, worldwide, royalty-free, non-transferable and non-exclusive licence to
+              use the app on Apple devices that you own or control, as permitted by the App Store Terms
+              of Service. The app is free of charge and contains no subscriptions, in-app purchases or
+              advertising.
+            </p>
+
+            <h2 id="use">3. Acceptable use</h2>
+            <p>
+              Please don't copy, modify, redistribute or sell the app, attempt to extract its source
+              code, or use it to break the law. The SafeSpotter name and icon remain the property of the
+              developer.
+            </p>
+
+            <h2 id="data">4. Your data and backups</h2>
+            <p>
+              SafeSpotter stores what you write on your device. Because there is no developer server, the
+              developer holds no copy of your items and cannot restore them for you. You are responsible
+              for keeping backups you consider necessary — for example an iCloud or computer backup of
+              your iPhone, or SafeSpotter's own iCloud sync.
+            </p>
+            <p>
+              Deleting the app deletes its local store on that device.
+            </p>
+
+            <h2 id="icloud">5. iCloud sync</h2>
+            <p>
+              iCloud sync is optional and relies on Apple's CloudKit service and your Apple Account. Its
+              availability, timing and storage limits are determined by Apple, your network and your
+              iCloud plan, not by the app. The developer cannot access, restore or reset your iCloud
+              data, and cannot recover an Apple Account.
+            </p>
+
+            <h2 id="warranty">6. Warranty and liability</h2>
+            <p>
+              The app is provided “as is”, without warranties of any kind to the extent permitted by law.
+              It is a memory aid for where you put physical objects; it does not guarantee that an item is
+              where you recorded it, and it is not a security product, a password manager or an inventory
+              system of record.
+            </p>
+            <p>
+              To the maximum extent permitted by law, the developer is not liable for indirect,
+              incidental, special or consequential damages, or for loss of data, profits or goodwill,
+              arising from your use of, or inability to use, the app. Nothing in these terms limits
+              liability that cannot be limited under applicable law, including your statutory rights as a
+              consumer.
+            </p>
+
+            <h2 id="apple">7. Apple</h2>
+            <p>
+              These terms are between you and the developer, not Apple. Apple has no obligation to provide
+              maintenance or support for the app and is not responsible for addressing any claim relating
+              to it. Apple and its subsidiaries are third-party beneficiaries of these terms and may
+              enforce them against you.
+            </p>
+
+            <h2 id="changes">8. Changes</h2>
+            <p>
+              These terms may be updated as the app changes. The current version always lives on this
+              page, with the date it was last updated at the top.
+            </p>
+
+            <h2 id="contact">9. Contact</h2>
+            <p>
+              Reach the developer at
+              <a href="mailto:mattioli.simone.10@gmail.com">mattioli.simone.10@gmail.com</a> or through
+              the <a href="/SafeSpotter/support.html">support page</a>.
+            </p>
+          </div>
+        </div>
       </div>
+    </main>
 
-      <div class="legal-section">
-        <h2>2. License to Use</h2>
-        <p>We grant you a personal, worldwide, royalty-free, non-assignable, and non-exclusive license to use the software provided to you as part of the Services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the Services as provided by SafeSpot, in the manner permitted by these Terms.</p>
+    <footer class="site-foot">
+      <div class="shell shell--wide">
+        <div class="site-foot__grid">
+          <div>
+            <a class="wordmark" href="/SafeSpotter/">
+              <img src="./src/assets/icon.webp" alt="" width="32" height="32" />
+              SafeSpotter
+            </a>
+            <p class="site-foot__blurb">Remember where you put what matters. An iPhone app by Simone Mattioli.</p>
+          </div>
+          <div>
+            <h2>App</h2>
+            <ul>
+              <li><a href="/SafeSpotter/#how">How it works</a></li>
+              <li><a href="/SafeSpotter/#privacy">Privacy by design</a></li>
+              <li><a href="/SafeSpotter/#faq">FAQ</a></li>
+              <li><a href="https://apps.apple.com/us/app/safespotter/id6775203521">App Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/SafeSpotter/privacy.html">Privacy policy</a></li>
+              <li><a href="/SafeSpotter/terms.html">Terms of use</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Help</h2>
+            <ul>
+              <li><a href="/SafeSpotter/support.html">Support</a></li>
+              <li><a href="mailto:mattioli.simone.10@gmail.com">Email the developer</a></li>
+              <li><a href="https://github.com/simo-hue/SafeSpotter">Source on GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="site-foot__bottom">
+          <span>© <span data-year>2026</span> Simone Mattioli</span>
+          <span>No cookies. No analytics. No third-party requests.</span>
+          <span>iPhone, Face ID, iCloud and App Store are trademarks of Apple Inc.</span>
+        </div>
       </div>
-
-      <div class="legal-section">
-        <h2>3. Acceptable Use</h2>
-        <p>You agree not to copy, or modify the app, any part of the app, or our trademarks in any way. You must not attempt to extract the source code of the app, and you also shouldn't try to translate the app into other languages, or make derivative versions.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>4. Data Loss & Liability</h2>
-        <p>SafeSpot is an offline-first application designed to help you remember where you put physical items. The app synchronizes through your private iCloud database when iCloud is available. Sync timing and availability depend on Apple's services, your account, network connectivity, and available iCloud storage. You remain responsible for maintaining any additional backups you consider necessary.</p>
-        <p>In no event shall the developers of SafeSpot be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from your use of the app, your inability to use the app, or the loss of data stored solely on your device.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>5. Apple App Store Terms</h2>
-        <p>These terms are between you and SafeSpot, not Apple. Apple is not responsible for the app and the content thereof. Apple has no obligation whatsoever to furnish any maintenance and support services with respect to the app.</p>
-      </div>
-
-      <div class="legal-section">
-        <h2>6. Changes to This Terms and Conditions</h2>
-        <p>We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.</p>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-bottom" style="border: none;">
-        &copy; 2026 SafeSpot App. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
+    </footer>
+  </body>
 </html>

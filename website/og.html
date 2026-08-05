@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>SafeSpotter social card (source)</title>
+    <!--
+      Source for public/og.png — the 1200×630 social preview.
+      Not part of the build. To regenerate, open this page at 1200×630 and screenshot it.
+    -->
+    <link rel="stylesheet" href="./src/style.css" />
+    <style>
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        align-items: center;
+        gap: 56px;
+        padding: 0 84px;
+        background: var(--bg);
+      }
+
+      .og-copy {
+        align-self: center;
+      }
+
+      .og-device {
+        position: relative;
+        transform: rotate(4deg) translateY(58px);
+      }
+
+      .og-device .phone {
+        --phone-w: 310px;
+      }
+
+      body::before {
+        background:
+          radial-gradient(46rem 30rem at 88% -6%, rgba(139, 106, 255, 0.34), transparent 62%),
+          radial-gradient(40rem 30rem at 2% 106%, rgba(56, 122, 255, 0.28), transparent 64%);
+      }
+
+      .og-top {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 40px;
+      }
+
+      .og-top img {
+        width: 64px;
+        height: 64px;
+        border-radius: 17px;
+      }
+
+      .og-top b {
+        font-family: var(--font-display);
+        font-size: 34px;
+        letter-spacing: -0.02em;
+      }
+
+      .og-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 34px;
+      }
+
+      .og-title em {
+        font-style: normal;
+        color: var(--text-3);
+      }
+
+      .og-path {
+        font-size: 24px;
+        line-height: 2.1;
+      }
+
+      .og-foot {
+        margin-top: 34px;
+        font-family: var(--font-mono);
+        font-size: 21px;
+        letter-spacing: 0.06em;
+        color: var(--text-3);
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="og-copy">
+      <div class="og-top">
+        <img src="./public/icon-192.png" alt="" />
+        <b>SafeSpotter</b>
+      </div>
+
+      <h1 class="og-title"><em>“Somewhere safe”</em><br />isn’t an address.</h1>
+
+      <ol class="path og-path">
+        <li>Home</li>
+        <li>Study</li>
+        <li>Filing cabinet</li>
+        <li class="is-target">Blue folder, behind the deeds</li>
+      </ol>
+
+      <p class="og-foot">Free on the App Store · iPhone · No account</p>
+    </div>
+
+    <div class="og-device">
+      <div class="phone">
+        <img src="./src/assets/screens/private-mode.webp" alt="" width="700" height="1522" />
+      </div>
+    </div>
+  </body>
+</html>
